@@ -1,0 +1,6 @@
+{
+    "port": "COM26",
+    "board": "arduino:avr:uno",
+    "programmer": "arduino:arduinoisporg",
+    "sketch": "ROBOCAR.ino"
+}
