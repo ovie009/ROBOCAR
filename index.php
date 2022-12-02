@@ -20,14 +20,12 @@
         </p>
         <div class="camera_control">
             <form action="updateDb.php" method="POST" class="camera_form">
-                <input type="hidden" value="left" name="camera">
-                <button type="button" class="camera-buttons">
+                <button id="camera-left" type="button" class="camera-buttons">
                     <span class="left_arrow"></span>
                 </button>
             </form>
             <form action="updateDb.php" method="POST"  class="camera_form">
-                <input type="hidden" value="right" name="camera">
-                <button type="button" class="camera-buttons">
+                <button id="camera-right" type="button" class="camera-buttons">
                     <span class="right_arrow"></span>
                 </button>
             </form>

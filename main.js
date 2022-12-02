@@ -12,11 +12,24 @@ $(document).ready(function() {
     })
 
     $(".reset-camera").click(function() {
-        let direction = 'center'; // get the id of the button
-        // the id of the button is equal to the direction of the button
+        let direction = 'center'; 
         $.post("updateDb.php", {
             camera: direction
         })
     })
 
-})
+    $("#camera-left").click(function() {
+        let direction = 'left'; 
+        $.post("updateDb.php", {
+            camera: direction
+        })
+    })
+
+    $("#camera-right").click(function() {
+        let direction = 'right'; 
+        $.post("updateDb.php", {
+            camera: direction
+        })
+    })
+
+});
