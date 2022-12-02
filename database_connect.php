@@ -1,3 +1,14 @@
 <?php
-    $con=mysqli_connect("sql213.epizy.com","epiz_33020133","rher9e3c38YnB","epiz_33020133_robocar");// server, user, password, database
+    
+    $dbServername = 'localhost';
+    $dbUsername = 'root';
+    $dbPassword = '';
+    $dbName = 'robocar';
+
+    // $dbServername = 'sql213.epizy.com'; // host
+    // $dbUsername = 'epiz_33020133'; // user
+    // $dbPassword = 'rher9e3c38YnB'; // password
+    // $dbName = 'epiz_33020133_robocar'; // database name
+
+    $connect = mysqli_connect($dbServername, $dbUsername, $dbPassword, $dbName);
 ?>
