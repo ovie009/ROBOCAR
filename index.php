@@ -7,6 +7,8 @@
     <title>Robocar</title>
     <link rel="stylesheet" href="style.css">
     <link rel="shortcut icon" href="/clutch.png" type="image/x-icon">
+    <script src="./jquery-3.4.1.min.js"></script>
+    <script src="./main.js"></script>
 </head>
 <body>
     <nav>
@@ -34,37 +36,33 @@
     <div class="car_control">
         <div class="controller_center">
 
-            <form action="updateDb.php" method="POST" class="car_unassigned">
+            <!-- <form action="updateDb.php" method="POST" class="car_unassigned">
                 <input type="hidden" value="stop" name="car">
                 <button type="submit">
                     C
                 </button>
-            </form>
+            </form> -->
 
             <form action="updateDb.php" method="POST" class="car_forward">
-                <input type="hidden" value="forward" name="car">
-                <button type="submit" class="car-buttons">
+                <button id="forward" type="button" class="car-buttons">
                     <span class="up-arrow"></span>
                 </button>
             </form>
             
             <form action="updateDb.php" method="POST" class="car_backward">
-                <input type="hidden" value="backward" name="car">
-                <button type="submit" class="car-buttons">
+                <button id="backward" type="button" class="car-buttons">
                     <span class="down-arrow"></span>
                 </button>
             </form>
             
             <form action="updateDb.php" method="POST" class="car_right">
-                <input type="hidden" value="right" name="car">
-                <button type="submit" class="car-buttons">
+                <button id="right" type="button" class="car-buttons">
                     <span class="right-arrow"></span>
                 </button>
             </form>
             
             <form action="updateDb.php" method="POST" class="car_left">
-                <input type="hidden" value="left" name="car">
-                <button type="submit" class="car-buttons">
+                <button id="left" type="button" class="car-buttons">
                     <span class="left-arrow"></span>
                 </button>
             </form>
