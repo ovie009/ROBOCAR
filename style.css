@@ -1,0 +1,247 @@
+/* RESET STYLESHEET */
+/*
+  1. Use a more-intuitive box-sizing model.
+*/
+*, *::before, *::after {
+    box-sizing: border-box;
+}
+/*
+2. Remove default margin
+*/
+* { 
+    margin: 0;
+}
+/*
+3. Allow percentage-based heights in the application
+*/
+html, body {
+    height: 100%;
+}
+/*
+Typographic tweaks!
+4. Add accessible line-height
+5. Improve text rendering
+*/
+body {
+    line-height: 1.5;
+    -webkit-font-smoothing: antialiased;
+}
+/*
+6. Improve media defaults
+*/
+img, picture, video, canvas, svg {
+    display: block;
+    max-width: 100%;
+}
+/*
+7. Remove built-in form typography styles
+*/
+input, button, textarea, select {
+    font: inherit;
+}
+/*
+8. Avoid text overflows
+*/
+p, h1, h2, h3, h4, h5, h6 {
+    overflow-wrap: break-word;
+}
+/*
+9. Create a root stacking context
+*/
+#root, #__next {
+    isolation: isolate;
+}
+/* END OF RESET STYLESHEET */
+
+
+@import url('https://fonts.googleapis.com/css2?family=Roboto&display=swap');
+
+body{
+    font-family: 'Roboto', sans-serif;
+    margin: 0;
+    padding: 0;
+}
+
+nav{
+    display: grid;
+    place-items: center;
+    text-transform: uppercase;
+    font-weight: bold;
+    width: 100%;
+    height: 50px;
+}
+
+.videostream{
+    width: 100%;
+    height: 60vh;
+    background-color: rgb(30, 30, 30);
+    position: relative;
+    display: grid;
+    place-items: center;
+}
+
+p{
+    color: white;
+}
+
+.camera_control{
+    position: absolute;
+    width: 150px;
+    aspect-ratio: 2/1;
+    bottom: 0;
+    /* background-color: rgba(211, 211, 211, 0.5); */
+    border-radius: 10px;
+    display: flex;
+    justify-content: space-between;
+}
+
+.camera_form{
+    width: 48%;
+    height: 100%;
+    display: flex;
+    align-content: flex-start;
+    justify-content: center;
+}
+
+button{
+    background-color: rgba(255, 255, 255, 0.257);
+    border: none;
+    outline: none;
+    display: grid;
+    place-items: center;
+}
+
+.camera_form button{
+    width: 100%;
+    height: 90%;
+    border-radius: 10px 0 0 10px;
+}
+
+.camera_form:last-child button{
+    border-radius: 0 10px 10px 0;
+}
+
+.left_arrow{
+    border: 12.5px solid transparent;
+    border-right-color: rgb(20, 20, 20);
+    margin-right: 15px;
+}
+
+.right_arrow{
+    border: 12.5px solid transparent;
+    border-left-color: rgb(20, 20, 20);
+    margin-left: 15px;
+}
+
+.camera-buttons:hover{
+    background-color: hsla(0, 0%, 100%, 0.4)
+}
+
+.car_control{
+    height: calc(40vh - 50px);
+    width: 100%;
+    display: grid;
+    place-items: center;
+}
+
+.controller_center{
+    height: 75px;
+    aspect-ratio: 1.5/1;
+    /* background-color: blue; */
+    position: relative;
+    display: grid;
+    place-items: center;
+}
+
+.car_unassigned button{
+    width: 50px;
+    height: 50px;
+    background-color: rebeccapurple;
+    color: white;
+    border-radius: 50%;
+}
+
+.car_forward{
+    position: absolute;
+    width: 100%;
+    height: 50px;
+    bottom: 75px;
+}
+
+.car_forward button{
+    width: 100%;
+    height: 100%;
+    background-color: lightgray;
+    border-radius: 10px 10px 0 0;
+}
+
+.up-arrow{
+    border: 12.5px solid transparent;
+    border-bottom-color: rgb(20, 20, 20);
+    margin-bottom: 15px;
+}
+
+.car_backward{
+    position: absolute;
+    width: 100%;
+    height: 50px;
+    top: 75px;
+}
+
+.car_backward button{
+    width: 100%;
+    height: 100%;
+    background-color: lightgray;
+    border-radius: 0 0 10px 10px;
+}
+
+.car-buttons:hover{
+    background-color: hsl(0, 0%, 73%);
+}
+
+.down-arrow{
+    border: 12.5px solid transparent;
+    border-top-color: rgb(20, 20, 20);
+    margin-top: 15px;
+}
+
+.car_right{
+    position: absolute;
+    width: 50px;
+    height: 100%;
+    left: calc(75px * 1.5);
+}
+
+.car_right button{
+    width: 100%;
+    height: 100%;
+    background-color: lightgray;
+    border-radius: 0 10px 10px 0;
+}
+
+.right-arrow{
+    border: 12.5px solid transparent;
+    border-left-color: rgb(20, 20, 20);
+    margin-left: 15px;
+}
+
+.car_left{
+    position: absolute;
+    width: 50px;
+    height: 100%;
+    right: calc(75px * 1.5);
+}
+
+.car_left button{
+    width: 100%;
+    height: 100%;
+    background-color: lightgray;
+    border-radius: 10px 0 0 10px;
+}
+
+.left-arrow{
+    border: 12.5px solid transparent;
+    border-right-color: rgb(20, 20, 20);
+    margin-right: 15px;
+}
+
