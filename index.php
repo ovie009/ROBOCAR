@@ -21,13 +21,13 @@
         <div class="camera_control">
             <form action="updateDb.php" method="POST" class="camera_form">
                 <input type="hidden" value="left" name="camera">
-                <button type="submit" class="camera-buttons">
+                <button type="button" class="camera-buttons">
                     <span class="left_arrow"></span>
                 </button>
             </form>
             <form action="updateDb.php" method="POST"  class="camera_form">
                 <input type="hidden" value="right" name="camera">
-                <button type="submit" class="camera-buttons">
+                <button type="button" class="camera-buttons">
                     <span class="right_arrow"></span>
                 </button>
             </form>
@@ -36,12 +36,11 @@
     <div class="car_control">
         <div class="controller_center">
 
-            <!-- <form action="updateDb.php" method="POST" class="car_unassigned">
-                <input type="hidden" value="stop" name="car">
-                <button type="submit">
+            <form action="updateDb.php" method="POST" class="car_unassigned">
+                <button class="reset-camera" type="button">
                     C
                 </button>
-            </form> -->
+            </form>
 
             <form action="updateDb.php" method="POST" class="car_forward">
                 <button id="forward" type="button" class="car-buttons">

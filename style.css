@@ -55,6 +55,13 @@ p, h1, h2, h3, h4, h5, h6 {
 
 
 @import url('https://fonts.googleapis.com/css2?family=Roboto&display=swap');
+:root{
+    --car-button-color: hsl(0, 0%, 83%);
+    --car-button-hover-color: hsl(0, 0%, 65%);
+    --reset-button-color: hsl(0, 100%, 60%);
+    --reset-button-hover-color: hsl(0, 100%, 20%);
+}
+
 
 body{
     font-family: 'Roboto', sans-serif;
@@ -78,6 +85,7 @@ nav{
     position: relative;
     display: grid;
     place-items: center;
+    min-height: 350px;
 }
 
 p{
@@ -86,17 +94,18 @@ p{
 
 .camera_control{
     position: absolute;
-    width: 150px;
-    aspect-ratio: 2/1;
+    width: 175px;
+    height: 80px;
     bottom: 0;
     /* background-color: rgba(211, 211, 211, 0.5); */
     border-radius: 10px;
     display: flex;
     justify-content: space-between;
+    margin-bottom: 10px;
 }
 
 .camera_form{
-    width: 48%;
+    width: 45%;
     height: 100%;
     display: flex;
     align-content: flex-start;
@@ -104,7 +113,7 @@ p{
 }
 
 button{
-    background-color: rgba(255, 255, 255, 0.257);
+    background-color: var(--car-button-color);
     border: none;
     outline: none;
     display: grid;
@@ -112,13 +121,24 @@ button{
 }
 
 .camera_form button{
+    background-color: var(--car-button-color);
     width: 100%;
     height: 90%;
     border-radius: 10px 0 0 10px;
+    filter: drop-shadow(5px 5px var(--car-button-hover-color));
 }
 
 .camera_form:last-child button{
     border-radius: 0 10px 10px 0;
+}
+.camera_form:first-child button:hover{
+    filter: none;
+    transform: translateX(5px) translateY(5px);
+
+}
+.camera_form:last-child button:hover{
+    filter: none;
+    transform: translateX(5px) translateY(5px);
 }
 
 .left_arrow{
@@ -133,19 +153,16 @@ button{
     margin-left: 15px;
 }
 
-.camera-buttons:hover{
-    background-color: hsla(0, 0%, 100%, 0.4)
-}
-
 .car_control{
     height: calc(40vh - 50px);
     width: 100%;
     display: grid;
     place-items: center;
+    min-height: 250px;
 }
 
 .controller_center{
-    height: 75px;
+    height: 90px;
     aspect-ratio: 1.5/1;
     /* background-color: blue; */
     position: relative;
@@ -156,22 +173,33 @@ button{
 .car_unassigned button{
     width: 50px;
     height: 50px;
-    background-color: red;
+    background-color: var(--reset-button-color);
     color: white;
     border-radius: 50%;
+    filter: drop-shadow(3px 3px var(--reset-button-hover-color));
+}
+.car_unassigned button:hover{
+    transform: translateX(3px) translateY(3px);
+    filter: none;
 }
 
 .car_forward{
     position: absolute;
     width: 100%;
-    height: 50px;
-    bottom: 75px;
+    height: calc(100% / 1.5);
+    bottom: 100%;
+    filter: drop-shadow(5px 5px var(--car-button-hover-color));
+}
+
+.car_forward:hover, .car_backward:hover{
+    filter: none;
+    bottom: calc(100% - 5px);
+    left: 5px;
 }
 
 .car_forward button{
     width: 100%;
     height: 100%;
-    background-color: lightgray;
     border-radius: 10px 10px 0 0;
 }
 
@@ -184,20 +212,20 @@ button{
 .car_backward{
     position: absolute;
     width: 100%;
-    height: 50px;
-    top: 75px;
+    height: calc(100% / 1.5);
+    top: 100%;
+    filter: drop-shadow(5px 5px var(--car-button-hover-color));
 }
 
 .car_backward button{
     width: 100%;
     height: 100%;
-    background-color: lightgray;
     border-radius: 0 0 10px 10px;
 }
 
-.car-buttons:hover{
-    background-color: hsl(0, 0%, 73%);
-}
+/* .car-buttons:hover{
+    background-color: var(--car-button-hover-color);
+} */
 
 .down-arrow{
     border: 12.5px solid transparent;
@@ -207,15 +235,22 @@ button{
 
 .car_right{
     position: absolute;
-    width: 50px;
+    width: calc(75% / 1.5);
     height: 100%;
-    left: calc(75px * 1.5);
+    left: calc(100%);
+    filter: drop-shadow(5px 5px var(--car-button-hover-color));
 }
+
+.car_right:hover{
+    filter: none;
+    left: calc(100% + 5px);
+    top: 5px;
+}
+
 
 .car_right button{
     width: 100%;
     height: 100%;
-    background-color: lightgray;
     border-radius: 0 10px 10px 0;
 }
 
@@ -227,15 +262,22 @@ button{
 
 .car_left{
     position: absolute;
-    width: 50px;
+    width: calc(75% / 1.5);
     height: 100%;
-    right: calc(75px * 1.5);
+    right: calc(100%);
+    filter: drop-shadow(5px 5px var(--car-button-hover-color));
+}
+
+
+.car_left:hover{
+    filter: none;
+    right: calc(100% - 5px);
+    top: 5px;
 }
 
 .car_left button{
     width: 100%;
     height: 100%;
-    background-color: lightgray;
     border-radius: 10px 0 0 10px;
 }
 
