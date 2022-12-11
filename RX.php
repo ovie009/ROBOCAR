@@ -1,8 +1,8 @@
 <?php
     include_once "./database_connect.php";
 
-    // $_POST['id']
-    $id = $_POST['id'];
+    // $id = $_POST['id'];
+    $id = 1;
 
     // sql query
     $sql = "SELECT * FROM `robocar_datastream` WHERE id = ?;";
@@ -21,10 +21,8 @@
         $result = mysqli_stmt_get_result($stmt);
         while ($row = mysqli_fetch_assoc($result)) {
             # code...
-            echo $row['car'];
-            echo '<br>';
-            echo $row['camera'];
+            // echo $row['data'];
+            echo $row['datetime'];
         }
-        echo 'here';
     }
 ?>

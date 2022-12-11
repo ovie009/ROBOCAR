@@ -20,12 +20,12 @@
         </p>
         <div class="camera_control">
             <form action="updateDb.php" method="POST" class="camera_form">
-                <button id="camera-left" type="button" class="camera-buttons">
+                <button data-direction="cam_left" id="camera-left" type="button" class="camera-buttons">
                     <span class="left_arrow"></span>
                 </button>
             </form>
             <form action="updateDb.php" method="POST"  class="camera_form">
-                <button id="camera-right" type="button" class="camera-buttons">
+                <button data-direction="cam_right" id="camera-right" type="button" class="camera-buttons">
                     <span class="right_arrow"></span>
                 </button>
             </form>
@@ -35,31 +35,31 @@
         <div class="controller_center">
 
             <form action="updateDb.php" method="POST" class="car_unassigned">
-                <button class="reset-camera" type="button">
+                <button data-direction="reset" class="reset-camera" type="button">
                     C
                 </button>
             </form>
 
             <form action="updateDb.php" method="POST" class="car_forward">
-                <button id="forward" type="button" class="car-buttons">
+                <button data-direction="car_forward" id="forward" type="button" class="car-buttons">
                     <span class="up-arrow"></span>
                 </button>
             </form>
             
             <form action="updateDb.php" method="POST" class="car_backward">
-                <button id="backward" type="button" class="car-buttons">
+                <button data-direction="car_backward" id="backward" type="button" class="car-buttons">
                     <span class="down-arrow"></span>
                 </button>
             </form>
             
             <form action="updateDb.php" method="POST" class="car_right">
-                <button id="right" type="button" class="car-buttons">
+                <button data-direction="car_right" id="right" type="button" class="car-buttons">
                     <span class="right-arrow"></span>
                 </button>
             </form>
             
             <form action="updateDb.php" method="POST" class="car_left">
-                <button id="left" type="button" class="car-buttons">
+                <button data-direction="car_left" id="left" type="button" class="car-buttons">
                     <span class="left-arrow"></span>
                 </button>
             </form>

@@ -2,26 +2,16 @@
 
     include_once "./database_connect.php";
 
-    if (isset($_POST['car'])) {
+    if (isset($_POST['data'])) {
         # code...
-        $carDirection = $_POST['car'];
-        $sql = "UPDATE `robocar_datastream` SET `car` = '".$carDirection."' WHERE `robocar_datastream`.`id` = 1;";
+        $data = $_POST['data'];
+        $sql = "UPDATE `robocar_datastream` SET `data` = '".$data."', `datetime` = CURRENT_TIMESTAMP WHERE `robocar_datastream`.`id` = 1;";
         mysqli_query($connect, $sql);
         echo 'Car Direction: ';
-        echo $carDirection;
+        echo $data;
         echo '<br>';
         echo 'successful';
         
-    } else if (isset($_POST['camera'])) {
-        # code...
-        $cameraDirection = $_POST['camera'];
-        $sql = "UPDATE `robocar_datastream` SET `camera` = '".$cameraDirection."' WHERE `robocar_datastream`.`id` = 1;";
-        mysqli_query($connect, $sql);
-        echo 'Camera Direction: ';
-        echo $cameraDirection;
-        echo '<br>';
-        echo 'successful';
-
     } else{
         # code...
         header("location: index.php?successful");
