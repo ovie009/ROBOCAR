@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Robocar</title>
     <link rel="stylesheet" href="style.css">
-    <link rel="shortcut icon" href="/clutch.png" type="image/x-icon">
+    <link rel="shortcut icon" href="clutch.png" type="image/x-icon">
     <script src="./jquery-3.4.1.min.js"></script>
     <script src="./main.js"></script>
 </head>

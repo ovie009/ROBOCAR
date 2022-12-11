@@ -3,32 +3,52 @@
     "configurations": [
         {
             "name": "Arduino",
-            "compilerPath": "C:\\Program Files (x86)\\Arduino\\hardware\\tools\\avr\\bin\\avr-g++",
+            "compilerPath": "C:\\Users\\hp\\AppData\\Local\\Arduino15\\packages\\esp8266\\tools\\xtensa-lx106-elf-gcc\\3.0.4-gcc10.3-1757bed\\bin\\xtensa-lx106-elf-g++",
             "compilerArgs": [
+                "-U__STRICT_ANSI__",
                 "-w",
-                "-std=gnu++11",
-                "-fpermissive",
-                "-fno-exceptions",
-                "-ffunction-sections",
-                "-fdata-sections",
-                "-fno-threadsafe-statics",
-                "-Wno-error=narrowing"
+                "-Werror=return-type",
+                "-free",
+                "-fipa-pta",
+                "-mlongcalls",
+                "-mtext-section-literals",
+                "-fno-rtti",
+                "-falign-functions=4",
+                "-std=gnu++17"
             ],
             "intelliSenseMode": "gcc-x64",
             "includePath": [
-                "C:\\Program Files (x86)\\Arduino\\hardware\\arduino\\avr\\cores\\arduino",
-                "C:\\Program Files (x86)\\Arduino\\hardware\\arduino\\avr\\variants\\standard"
+                "C:\\Users\\hp\\AppData\\Local\\Arduino15\\packages\\esp8266\\hardware\\esp8266\\3.0.2\\tools\\sdk\\include",
+                "C:\\Users\\hp\\AppData\\Local\\Arduino15\\packages\\esp8266\\hardware\\esp8266\\3.0.2\\tools\\sdk\\lwip2\\include",
+                "C:\\Users\\hp\\AppData\\Local\\Arduino15\\packages\\esp8266\\hardware\\esp8266\\3.0.2\\cores\\esp8266",
+                "C:\\Users\\hp\\AppData\\Local\\Arduino15\\packages\\esp8266\\hardware\\esp8266\\3.0.2\\variants\\nodemcu",
+                "C:\\Users\\hp\\AppData\\Local\\Arduino15\\packages\\esp8266\\hardware\\esp8266\\3.0.2\\libraries\\ESP8266WiFi\\src",
+                "C:\\Users\\hp\\AppData\\Local\\Arduino15\\packages\\esp8266\\hardware\\esp8266\\3.0.2\\libraries\\ESP8266HTTPClient\\src"
             ],
             "forcedInclude": [
-                "C:\\Program Files (x86)\\Arduino\\hardware\\arduino\\avr\\cores\\arduino\\Arduino.h"
+                "C:\\Users\\hp\\AppData\\Local\\Arduino15\\packages\\esp8266\\hardware\\esp8266\\3.0.2\\cores\\esp8266\\Arduino.h"
             ],
             "cStandard": "c11",
-            "cppStandard": "c++11",
+            "cppStandard": "c++17",
             "defines": [
-                "F_CPU=16000000L",
+                "__ets__",
+                "ICACHE_FLASH",
+                "_GNU_SOURCE",
+                "MMU_IRAM_SIZE=0x8000",
+                "MMU_ICACHE_SIZE=0x8000",
+                "NONOSDK22x_190703=1",
+                "F_CPU=80000000L",
+                "LWIP_OPEN_SRC",
+                "TCP_MSS=536",
+                "LWIP_FEATURES=1",
+                "LWIP_IPV6=0",
                 "ARDUINO=10813",
-                "ARDUINO_AVR_UNO",
-                "ARDUINO_ARCH_AVR",
+                "ARDUINO_ESP8266_NODEMCU_ESP12E",
+                "ARDUINO_ARCH_ESP8266",
+                "ARDUINO_BOARD=\"ESP8266_NODEMCU_ESP12E\"",
+                "LED_BUILTIN=2",
+                "FLASHMODE_DIO",
+                "ESP8266",
                 "USBCON"
             ]
         }
