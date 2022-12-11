@@ -21,8 +21,17 @@
         $result = mysqli_stmt_get_result($stmt);
         while ($row = mysqli_fetch_assoc($result)) {
             # code...
-            // echo $row['data'];
-            echo $row['datetime'];
+            $data = $row['data'];
+            $dateTime = $row['datetime'];
+            $dateTime = strtotime($dateTime);
+            $currentDateTime = date('Y-m-d G:i:s');
+            $unixSeconds = date('U');
+            // echo $unixSeconds;
+            // echo '<br>';
+            // echo $dateTime;
+            // seconds since last update
+            $timeElapsed = $unixSeconds - $dateTime;
+            echo $timeElapsed;
         }
     }
 ?>
