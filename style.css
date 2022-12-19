@@ -88,6 +88,17 @@ nav{
     min-height: 350px;
 }
 
+.videostream p{
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+}
+
+#stream{
+    width: 100%;
+    height: 100%;
+}
+
 p{
     color: white;
 }

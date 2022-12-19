@@ -1,7 +1,7 @@
 <?php
     include_once "./database_connect.php";
-    if (isset($_GET["id"])) {
-        $id = $_GET['id'];
+    if (isset($_POST["id"])) {
+        $id = $_POST['id'];
         // sql query
         $sql = "SELECT * FROM `robocar_datastream` WHERE id = ?;";
     

@@ -13,7 +13,7 @@ function startLoop(event) {
       // console.log(event.target.dataset.direction);
       let direction = event.target.dataset.direction; // get the direction data
         // console.log(direction);
-        $.post("updateDb.php", {
+        $.post("updatedb.php", {
             data: direction
         })
     }, 250);

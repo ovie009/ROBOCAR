@@ -3,6 +3,7 @@
 #include <ESP8266WiFi.h>
 #include <WiFiClient.h>
 #include <ESP8266HTTPClient.h>
+#include <Wire.h>
 //----------------------------------------
 
 #define ON_Board_LED 2  //--> Defining an On Board LED (GPIO2 = D4), used for indicators when the process of connecting to a wifi router
@@ -14,14 +15,15 @@ const char* ssid = "spartans"; //--> Your wifi name or SSID.
 const char* password = "profession"; //--> Your wifi password.
 //----------------------------------------
 
-//----------------------------------------Web Server address / IPv4
-// If using IPv4, press Windows key + R then type cmd, then type ipconfig (If using Windows OS).
-const char *host = "http://192.168.2.138/";
+//----------------------------------------Web Server address 
+const char *host = "robotcar.000webhostapp.com";
 //----------------------------------------
+byte binSignal = 0;
 
 void setup() {
   // put your setup code here, to run once:
   Serial.begin(115200);
+  Wire.begin(D2, D3); // join I2C bus (address optional for master)
   delay(500);
 
   WiFi.mode(WIFI_STA);
@@ -48,13 +50,7 @@ void setup() {
   //----------------------------------------
   digitalWrite(ON_Board_LED, HIGH); //--> Turn off the On Board LED when it is connected to the wifi router.
   //----------------------------------------If successfully connected to the wifi router, the IP Address that will be visited is displayed in the serial monitor
-  // Serial.println("");
-  // Serial.print("Successfully connected to : ");
-  // Serial.println(ssid);
-  // Serial.print("IP address: ");
-  // Serial.println(WiFi.localIP());
-  // Serial.println();
-  //----------------------------------------
+
 }
 
 void loop() {
@@ -65,39 +61,71 @@ void loop() {
   //----------------------------------------Getting Data from MySQL Database
   String GetAddress, LinkGet, getData;
   int id = 1; //--> ID in Database
-  GetAddress = "ROBOCAR/RX.php"; 
+  GetAddress = "/tx.php"; 
   LinkGet = host + GetAddress; //--> Make a Specify request destination
   getData = "id=" + String(id);
-  // Serial.println("----------------Connect to Server-----------------");
-  // Serial.println("Get LED Status from Server or Database");
-  // Serial.print("Request Link : ");
-  // Serial.println(LinkGet);
   http.begin(wificlient, LinkGet); //--> Specify request destination
   http.addHeader("Content-Type", "application/x-www-form-urlencoded");    //Specify content-type header
   int httpCodeGet = http.POST(getData); //--> Send the request
   String payloadGet = http.getString(); //--> Get the response payload from server
-  // Serial.print("Response Code : "); //--> If Response Code = 200 means Successful connection, if -1 means connection failed. For more information see here : https://en.wikipedia.org/wiki/List_of_HTTP_status_codes
-  // Serial.println(httpCodeGet); //--> Print HTTP return code
-  // Serial.print("Returned data from Server : ");
-  // Serial.println(payloadGet); //--> Print request response payload
-
-  // if (payloadGet == "1") {
-  //   digitalWrite(LED_D8, HIGH); //--> Turn off Led
-  // }
-  // if (payloadGet == "0") {
-  //   digitalWrite(LED_D8, LOW); //--> Turn off Led
-  // }
-  //----------------------------------------
   
   Serial.println(payloadGet);
   // Serial.println("----------------Closing Connection----------------");
-  http.end(); //--> Close connection
-  // Serial.println();
-  // Serial.println("Please wait 5 seconds for the next connection.");
-  // Serial.println();
-  delay(300); //--> GET Data at every 1 seconds
-}
 
+  if (payloadGet == "car_forward")
+  {
+    /* code */
+    binSignal = 1;
+  }
+  else if (payloadGet == "car_backward")
+  {
+    /* code */
+    binSignal = 2;
+  }
+  else if (payloadGet == "car_left")
+  {
+    /* code */
+    binSignal = 3;
+  }
+  else if (payloadGet == "car_right")
+  {
+    /* code */
+    binSignal = 4;
+  }
+  else if (payloadGet == "cam_left")
+  {
+    /* code */
+    binSignal = 5;
+  }
+  else if (payloadGet == "cam_right")
+  {
+    /* code */
+    binSignal = 6;
+  }
+  else if (payloadGet == "reset")
+  {
+    /* code */
+    binSignal = 7;
+  }
+  else
+  {
+    /* code */
+    binSignal = 0;
+  }
+
+  Serial.print("Payload: ");
+  Serial.println(payloadGet);
+  Serial.print("Binary Signal: ");
+  Serial.println(binSignal);
+  
+  Wire.beginTransmission(8); // transmit to device #8
+  Wire.write(binSignal);        // sends five bytes
+  Wire.endTransmission();    // stop transmitting
+  delay(100);
+  
+  http.end(); //--> Close connection
+  delay(2000); //--> GET Data at every 1 seconds
+}
 
 // ESP8266 NODEMCU Board Manager https://arduino.esp8266.com/stable/package_esp8266com_index.json search of esp8266 in the borad manager and install
 

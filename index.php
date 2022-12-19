@@ -9,6 +9,9 @@
     <link rel="shortcut icon" href="clutch.png" type="image/x-icon">
     <script src="./jquery-3.4.1.min.js"></script>
     <script src="./main.js"></script>
+    <!-- Include VideoJS library -->
+    <link href="https://vjs.zencdn.net/7.8.4/video-js.css" rel="stylesheet">
+    <script src="https://vjs.zencdn.net/7.8.4/video.js"></script>
 </head>
 <body>
     <nav>
@@ -16,6 +19,15 @@
     </nav>
     <div class="videostream">
         <p>
+            <img alt="robocar video stram" id="stream" src="http://192.168.114.232/1024x768.jpg" >
+            <!-- Create a video element to display the video stream -->
+            <!-- <video id="my-video" class="video-js vjs-default-skin vjs-big-play-centered" controls preload="auto" width="640" height="480" data-setup='{}'>
+            <source src="http://<ESP32-CAM IP address>:80/" type='video/mp4'>
+            <p class="vjs-no-js">
+                To view this video please enable JavaScript, and consider upgrading to a web browser that
+                <a href="https://videojs.com/html5-video-support/" target="_blank">supports HTML5 video</a>
+            </p>
+            </video> -->
             <em>VIDEOSTREAM</em>
         </p>
         <div class="camera_control">
