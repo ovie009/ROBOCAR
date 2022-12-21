@@ -1,5 +1,5 @@
 <?php
-    
+    date_default_timezone_set('Europe/Paris');
     $dbServername = 'localhost';
     $dbUsername = 'root';
     $dbPassword = '';

@@ -9,7 +9,7 @@
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
-SET time_zone = "+00:00";
+SET time_zone = "+01:00";
 
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
@@ -32,7 +32,7 @@ CREATE TABLE `login` (
   `user` varchar(20) NOT NULL DEFAULT 'ROBOCAR_ADMIN',
   `password` varchar(50) NOT NULL DEFAULT 'Robocar&@!%(*^#%$',
   `datetime` datetime NOT NULL DEFAULT current_timestamp()
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+);
 
 --
 -- Dumping data for table `login`
@@ -52,7 +52,7 @@ CREATE TABLE `robocar_datastream` (
   `data` varchar(20) DEFAULT NULL,
   `datetime` datetime NOT NULL DEFAULT current_timestamp(),
   `mode` varchar(20) NOT NULL DEFAULT 'stream'
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+);
 
 --
 -- Dumping data for table `robocar_datastream`
