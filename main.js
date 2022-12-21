@@ -30,3 +30,33 @@ function stopLoop(event) {
     clearInterval(event.target.dataset.interval);
   }
 }
+
+// onclick the checkbox, show typed password
+$(document).ready(function() {
+  $('#show-password').change(function() {
+    var input = $('#password-input');
+    if(this.checked) {
+      input.attr('type', 'text');
+    } else {
+      input.attr('type', 'password');
+    }
+  });
+});
+
+setInterval(function() {
+  $.ajax({
+    type: 'POST',
+    url: 'check_new_login.php',
+    data: { id: 1 },
+    success: function(data) {
+      // code to handle the response from the server
+      // console.log(data);
+      if (data === 'new user found!') {
+        // if a new device has logged in with the same
+        // login credentials more recently 
+        // reload the page to log out the old user
+        location.reload(true);
+      }
+    }
+  });
+}, 5000); // 5000 milliseconds = 5 seconds
