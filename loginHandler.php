@@ -35,7 +35,7 @@
                         $_SESSION['login_timestamp'] = $dateTime;
                         $sql = "UPDATE `login` SET `datetime` = '".$dateTime."' WHERE `login`.`id` = 1;";
                         mysqli_query($connect, $sql);
-                        echo "successful";
+                        // echo "successful";
                         header("location: index.php?successful");
                         
                     } else {
@@ -50,7 +50,8 @@
         }
     } else {
         # code...
-        echo 'invalid back door';
+        header("location: index.php?invalidBackdoor");
+        // echo 'invalid back door';
     }
     
 ?>

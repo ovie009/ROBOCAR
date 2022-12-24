@@ -12,10 +12,14 @@ function startLoop(event) {
       // Do something on each iteration of the loop
       // console.log(event.target.dataset.direction);
       let direction = event.target.dataset.direction; // get the direction data
-        // console.log(direction);
-        $.post("updatedb.php", {
-            data: direction
-        })
+        $.ajax({
+          type: 'POST',
+          url: 'updatedb.php',
+          data: { data: direction },
+          success: function(data) {
+            // code to handle the response from the server
+          }
+        });
     }, 250);
 
     // Save the interval ID so it can be canceled later
@@ -59,4 +63,4 @@ setInterval(function() {
       }
     }
   });
-}, 5000); // 5000 milliseconds = 5 seconds
+}, 2500); // 5000 milliseconds = 5 seconds
