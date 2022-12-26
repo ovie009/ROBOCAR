@@ -26,9 +26,9 @@
                 $unixSeconds = date('U');
                 $timeElapsed = $unixSeconds - $dateTime;
                 if ($timeElapsed > 10) {
-                    echo 'N/A';
+                    echo '#N/A@';
                 } else {
-                    echo $data;
+                    echo '#'.$data.'@';
                 }
             }
         }

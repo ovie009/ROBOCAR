@@ -5,6 +5,11 @@
     $ftp_username = "username";
     $ftp_userpass = "password";
 
+    // Connect to the FTP server
+    // $ftp_server = "files.000webhost.com";
+    // $ftp_username = "robotcar";
+    // $ftp_userpass = "Robotcar@2022";
+
     $conn_id = ftp_connect($ftp_server) or die("Couldn't connect to $ftp_server");
 
     // Login to the FTP server
