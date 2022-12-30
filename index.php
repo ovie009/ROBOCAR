@@ -10,9 +10,8 @@
     <link rel="shortcut icon" href="clutch.png" type="image/x-icon">
     <script src="./jquery-3.4.1.min.js"></script>
     <script src="./main.js"></script>
-    <!-- Include VideoJS library -->
-    <link href="https://vjs.zencdn.net/7.8.4/video-js.css" rel="stylesheet">
-    <script src="https://vjs.zencdn.net/7.8.4/video.js"></script>
+    <!-- Include the JavaScript file -->
+    <script src="stream.js"></script>
 </head>
 <body>
     <?php
@@ -25,7 +24,15 @@
             </nav>
             <div class="videostream">
                 <div id="stream_container">
-                    <img alt="robocar video stream" id="stream" src="./stream/stream.jpg" >
+                    <!-- Add the canvas element -->
+                    <!-- <canvas id="video" width="640" height="480"></canvas> -->
+                    <!-- HTML5 video element for displaying the RTSP stream -->
+                    <!-- <video id="video" width="640" height="480" autoplay controls> -->
+                    <!-- Fallback for browsers that don't support the video element -->
+                    <!-- Your browser does not support the video element. -->
+                    <!-- </video> -->
+                    <!-- <video id="video" width="640" height="480" src="https://1c92-102-88-34-231.eu.ngrok.io/cam.mjpeg" autoplay controls> -->
+                    <img alt="robocar video stream" id="stream" src="https://6253-102-88-63-29.eu.ngrok.io/cam.mjpeg" >
                 </div>
                 <div class="camera_control">
                     <form action="updateDb.php" method="POST" class="camera_form">
