@@ -449,6 +449,92 @@ button{
     padding: 10px 20px;
     border-radius: 5px;
     color: white;
-    background-color: rebeccapurple;
+    /* background-color: rebeccapurple; */
     background-color: #4285f4;
+}
+
+.esp_now_modal{
+    width: 100vw;
+    height: 100vh;
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 100;
+    background-color: hsla(0, 0%, 100%, 0.6);
+    display: grid;
+    place-items: center;
+    color: black;
+}
+
+.esp_now_container{
+    width: 90%;
+    max-width: 500px;
+    height: 275px;
+    background-color: white;
+    box-shadow: 0 0 10px 5px hsl(0, 0%, 40%);
+    border-radius: 5px;
+}
+
+.esp_now_form{
+    display: flex;
+    flex-flow: column;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: 100%;
+    padding: 20px;
+    gap: 5px;
+}
+
+.esp_now_form *{
+    width: 100%;
+    text-align: left;
+}
+
+.ip_container{
+    display: flex;
+    flex-flow: row wrap;
+    
+}
+
+#ip_address{
+    width: 70%;
+    border-radius: 5px 0 0 5px;
+    border: 1px solid darkgray;
+    background-color: hsl(0, 0%, 93%);
+}
+
+.esp_now_submit{
+    width: 30%;
+    background-color: #4285f4;
+    color: white;
+    border-radius: 0 5px 5px 0;
+}
+
+.esp_now_form label{
+    margin-top: 5px;
+}
+
+.esp_now_form input{
+    padding: 5px;
+    outline: none;
+    border-radius: 5px;
+    border: 1px solid darkgray;
+}
+
+.esp_now_form input::placeholder{
+    font-style: italic;
+}
+
+.esp_now_footer{
+    margin-block-start: 20px;
+}
+
+.esp_failed{
+    color: tomato;
+}
+
+.old_ip_notice{
+    font-size: small;
+    font-style: italic;
 }

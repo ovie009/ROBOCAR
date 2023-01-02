@@ -7,11 +7,7 @@ const char* password = "profession";
 const char* host = "robotcar.000webhostapp.com";
 const int httpPort = 80;
 
-String mode;
-int modeSwitch;
-
 byte binSignal = 0; //number to be sent to ARDUINO UNO via I2C
-
 
 void setup() {
   Serial.begin(115200);
@@ -23,26 +19,14 @@ void setup() {
   Serial.println("Connected to the WiFi network");
   // begin wire communication via I2C
   Wire.begin(D2, D3); // (SDA, SCL) join I2C bus (address optional for master)
-  pinMode(D1, INPUT);
-
-
-  
 }
 
 void loop() {
 
   WiFiClient client;
   modeSwitch = digitalRead(D1);
-  Serial.print("mode read: ");  
-  Serial.println(modeSwitch);
-
-  if (modeSwitch == HIGH) {
-    mode = "standBy";
-  } else {
-    mode = "stream";
-  }
   
-  String url = "/rx.php?id=1&mode="+mode;
+  String url = "/rx.php?id=1&mode=";
   if (client.connect(host, httpPort)) {
     client.print(String("GET ") + url + " HTTP/1.1\r\n" + "Host: " + host + "\r\n" + "Connection: close\r\n\r\n");
     unsigned long timeout = millis();

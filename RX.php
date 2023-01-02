@@ -2,6 +2,8 @@
     include_once "./database_connect.php";
     if (isset($_GET["id"])) {
         $id = $_GET['id'];
+        $mode = $_GET['mode'];
+        $captured = $_GET['captured'];
         // sql query
         $sql = "SELECT * FROM `robocar_datastream` WHERE id = ?;";
     

@@ -46,16 +46,7 @@ void setup() {
   esp_now_register_recv_cb(OnDataRecv);
 }
 
-// // callback when data is recv from Master
-// void OnDataRecv(uint8_t *mac_addr, uint8_t *data, uint8_t data_len) {
-//   char macStr[18];
-//   snprintf(macStr, sizeof(macStr), "%02x:%02x:%02x:%02x:%02x:%02x",
-//            mac_addr[0], mac_addr[1], mac_addr[2], mac_addr[3], mac_addr[4], mac_addr[5]);
-//   Serial.print("Last Packet Recv from: "); Serial.println(macStr);
-//   Serial.print("Last Packet Recv Data: "); Serial.println(*data);
-//   Serial.println("");
-// }
-
+// callback when data is recv from Master
 void OnDataRecv(uint8_t* mac_addr, uint8_t* data, uint8_t data_len) {
   char macStr[18];
   snprintf(macStr, sizeof(macStr), "%02x:%02x:%02x:%02x:%02x:%02x",
@@ -70,17 +61,6 @@ void OnDataRecv(uint8_t* mac_addr, uint8_t* data, uint8_t data_len) {
   Serial.print("Last Packet Recv Data: "); Serial.println(dataStr);
   Serial.println("");
 }
-
-
-void OnDataRecv(uint8_t *mac_addr, char *data, int data_len) {
-  char macStr[18];
-  snprintf(macStr, sizeof(macStr), "%02x:%02x:%02x:%02x:%02x:%02x",
-           mac_addr[0], mac_addr[1], mac_addr[2], mac_addr[3], mac_addr[4], mac_addr[5]);
-  Serial.print("Last Packet Recv from: "); Serial.println(macStr);
-  Serial.print("Last Packet Recv Data: "); Serial.println(data);
-  Serial.println("");
-}
-
 
 void loop() {
   // Chill

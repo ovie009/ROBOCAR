@@ -1,3 +1,4 @@
+// ESP32 ESP NOW Master  Code
 #include "esp_camera.h"
 #include "WiFi.h"
 #include "WiFiClient.h"
@@ -12,7 +13,7 @@ const char* password = "profession";
 // ESP NOW Parameters
 // Global copy of slave
 esp_now_peer_info_t slave;
-#define CHANNEL 1
+#define CHANNEL 10
 #define PRINTSCANRESULTS 0
 #define DELETEBEFOREPAIR 0
 
@@ -59,9 +60,98 @@ String index_html = "<meta charset=\"utf-8\"/>\n" \
 
 // variable to switch between streaming mode and capture mode
 String mode; // possible values "STREAM"; "CAPTURE";
+String prevMode; // variable to store previous mode
 String IP; // ip address of the cam server
 
 bool motionDetected; // varaible to store motion detected state
+
+void setup() {
+  Serial.begin(115200);
+
+  // Set device in STA mode to begin with
+  // WiFiReset();
+  // WiFi.mode(WIFI_STA);
+  WiFi.mode(WIFI_AP_STA);
+  esp_wifi_set_channel(CHANNEL, WIFI_SECOND_CHAN_NONE);
+  // Init ESPNow with a fallback logic
+  InitESPNow();
+  // Once ESPNow is successfully Init, we will register for Send CB to
+  // get the status of Trasnmitted packet
+  esp_now_register_send_cb(OnDataSent);
+
+
+  // connect ti WiFi
+  WiFi.begin(ssid, password, CHANNEL);
+  Serial.println("");
+  while (WiFi.status() != WL_CONNECTED) {
+    delay(500);
+    Serial.print(".");
+  }
+  Serial.println("");
+  IP = WiFi.localIP().toString();
+  Serial.println("IP address: " + IP);
+  index_html.replace("server_ip", IP);
+  server.begin();
+  configCamera();
+
+ // set mode and motion sesor pins 
+  gpio_set_direction(MODE_SWITCH, GPIO_MODE_INPUT);
+  gpio_set_direction(MOTION_SENSOR, GPIO_MODE_INPUT);
+  checkMode();
+  detectMotion();
+  prevMode = mode;
+  sendMessage(IP+"#"+mode);
+}
+
+void loop() {
+  checkMode();
+  detectMotion();
+
+  if (prevMode != mode)
+  {
+    /* code */
+    sendMessage(IP+"#"+mode);
+    prevMode = mode;
+  }
+  
+
+  Serial.print("mode: ");
+  Serial.println(mode);
+
+  if (mode == "STREAM")
+  {    
+    http_resp();
+    if(connected == true){
+      // turnOnFlash();
+      liveCam(live_client);
+    }
+    
+  }
+  else if (mode == "CAPTURE")
+  {
+    if (motionDetected == true)
+    {
+      String response; 
+      // Serial.print("motion detected");
+      // capture image and send to webserver and get response
+      response = captureImage();
+
+      if (response == "saved image")
+      {
+        /* code */
+        sendMessage("image captured!")
+      }
+      else
+      {
+        /* code */
+        sendMessage("image captured failed!")
+      }
+      // reset motion detetcted state
+      motionDetected = false;
+    }
+  }
+  delay(1000);
+}
 
 void configCamera(){
   camera_config_t config;
@@ -124,41 +214,6 @@ void liveCam(WiFiClient &client){
   client.print("\n");
   esp_camera_fb_return(fb);
 }
-
-void setup() {
-  Serial.begin(115200);
-
-  // Set device in STA mode to begin with
-  WiFi.mode(WIFI_STA);
-  esp_wifi_set_channel(CHANNEL, WIFI_SECOND_CHAN_NONE);
-  // Init ESPNow with a fallback logic
-  InitESPNow();
-  // Once ESPNow is successfully Init, we will register for Send CB to
-  // get the status of Trasnmitted packet
-  esp_now_register_send_cb(OnDataSent);
-
-
-  // connect ti WiFi
-  WiFi.begin(ssid, password);
-  Serial.println("");
-  while (WiFi.status() != WL_CONNECTED) {
-    delay(500);
-    Serial.print(".");
-  }
-  Serial.println("");
-  IP = WiFi.localIP().toString();
-  Serial.println("IP address: " + IP);
-  index_html.replace("server_ip", IP);
-  server.begin();
-  configCamera();
-
- // set mode and motion sesor pins 
-  gpio_set_direction(MODE_SWITCH, GPIO_MODE_INPUT);
-  gpio_set_direction(MOTION_SENSOR, GPIO_MODE_INPUT);
-  checkMode();
-  detectMotion();
-  sendIP(IP+"#"+mode);
-}
     
 void http_resp(){
   WiFiClient client = server.available();                           
@@ -206,38 +261,6 @@ void http_resp(){
     }       
 }
 
-void loop() {
-  checkMode();
-  detectMotion();
-  // sendIP(IP+"#"+mode);
-
-
-  Serial.print("mode: ");
-  Serial.println(mode);
-
-  if (mode == "STREAM")
-  {    
-    http_resp();
-    if(connected == true){
-      // turnOnFlash();
-      liveCam(live_client);
-    }
-    
-  }
-  else if (mode == "CAPTURE")
-  {
-    if (motionDetected == true)
-    {
-      // capture image and send to webserver
-      Serial.print("motion detected");
-      captureImage();
-      // reset motion detetcted state
-      motionDetected = false;
-    }
-  }
-  delay(1000);
-}
-
 void turnOnFlash() {
   // Set the flash GPIO pin as an output
   gpio_set_direction(FLASH_GPIO_NUM, GPIO_MODE_OUTPUT);
@@ -250,7 +273,7 @@ void turnOffFlash() {
   gpio_set_level(FLASH_GPIO_NUM, 0);
 }
 
-void captureImage() {
+String captureImage() {
   turnOnFlash();
   delay(1000);
   camera_fb_t *fb = esp_camera_fb_get();
@@ -261,7 +284,7 @@ void captureImage() {
   }
   delay(500);
   turnOffFlash();
-
+  String response;
   // Create an HTTP client and set the destination URL
   HTTPClient http;
   // http.begin("https://robotcar.000webhostapp.com/image.php");
@@ -277,10 +300,12 @@ void captureImage() {
     // HTTP header has been send and Server response header has been handled
     Serial.printf("[HTTP] POST... code: %d\n", httpCode);
     // Read the response from the server
-    String response = http.getString();
+    response = http.getString();
     Serial.println(response);
+    // return response;
   } else {
     Serial.printf("[HTTP] POST... failed, error: %s\n", http.errorToString(httpCode).c_str());
+    response = http.errorToString(httpCode).c_str();
   }
 
   // Release the frame buffer
@@ -288,6 +313,8 @@ void captureImage() {
 
   // Close the HTTP connection
   http.end();
+
+  return response;
 }
 
 void checkMode() {
@@ -299,8 +326,8 @@ void checkMode() {
   else if (gpio_get_level(MODE_SWITCH) == 0 )
   {
     // if switch is on set mode to capture Mode
-    mode = "STREAM";
-    // mode = "CAPTURE";
+    // mode = "STREAM";
+    mode = "CAPTURE";
   }
 }
 
@@ -320,6 +347,13 @@ void detectMotion() {
 // ESP NOW FUNCTIONS // ESP NOW FUNCTIONS // ESP NOW FUNCTIONS
 // ESP NOW FUNCTIONS // ESP NOW FUNCTIONS // ESP NOW FUNCTIONS
 // ESP NOW FUNCTIONS // ESP NOW FUNCTIONS // ESP NOW FUNCTIONS
+
+// reset WiFi
+void WiFiReset() {
+  WiFi.persistent(false);
+  WiFi.disconnect();
+  WiFi.mode(WIFI_OFF);
+}
 
 // Init ESP Now with fallback
 void InitESPNow() {
@@ -492,28 +526,9 @@ void OnDataSent(const uint8_t *mac_addr, esp_now_send_status_t status) {
   // Serial.print("Last Packet Sent to: "); Serial.println(macStr);
   Serial.print("Last Packet Send Status: "); Serial.println(status == ESP_NOW_SEND_SUCCESS ? "Delivery Success" : "Delivery Fail");
 
-  // Reset WiFi mode
-  // WiFi.disconnect(true);
-  // WiFi.mode(WIFI_OFF);
-  // // Reset ESP-NOW
-  // esp_now_deinit();
-
-  // WiFiServer server(80);
-
-  // WiFi.begin(ssid, password);
-  // Serial.println("");
-  // while (WiFi.status() != WL_CONNECTED) {
-  //   delay(500);
-  //   Serial.print(".");
-  // }
-  // Serial.println("");
-  // IP = WiFi.localIP().toString();
-  // Serial.println("IP address: " + IP);
-  // index_html.replace("server_ip", IP);
-  // server.begin();
 }
 
-void sendIP(String IP) {
+void sendMessage(String message) {
   // In the loop we scan for slave
   ScanForSlave();
   // If Slave is found, it would be populate in `slave` variable
@@ -525,7 +540,7 @@ void sendIP(String IP) {
     if (isPaired) {
       // pair success or already paired
       // Send data to device
-      sendData(IP);
+      sendData(message);
     } else {
       // slave pair failed
       Serial.println("Slave pair failed!");

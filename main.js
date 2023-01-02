@@ -50,23 +50,47 @@ $(document).ready(function() {
     clearInterval(intervalId);
   });
 
-  let imageUrl;
-  // setInterval(function() {
-  //   // imageUrl = "https://c689-197-210-78-157.eu.ngrok.io/cam.mjpeg?"+Math.random();
-  //   imageUrl = "https://c689-197-210-78-157.eu.ngrok.io/cam.mjpeg?";
-  //   $("#stream").attr("src", imageUrl);
-  //   // imageUrl = (imageUrl == "st.jpg") ? "image2.jpg" : "st.jpg";
-  // }, 250);
-    
-  // setInterval(function() {
-  //   $.ajax({
-  //     url: 'updateImage.php',
-  //     success: function(data) {
-  //       $('#stream_container').html(data);
-  //     },
-  //     error: function(xhr, status, error) {
-  //       console.log(error);
-  //     }
-  //   });
-  // }, 250);
+  // function to check if a cookie exists
+  function checkCookie(cookieName) {
+    var name = cookieName + "=";
+    var decodedCookie = decodeURIComponent(document.cookie);
+    var ca = decodedCookie.split(';');
+    for(var i = 0; i <ca.length; i++) {
+      var c = ca[i];
+      while (c.charAt(0) == ' ') {
+        c = c.substring(1);
+      }
+      if (c.indexOf(name) == 0) {
+        return true;
+      }
+    }
+    return false;
+  }
+
+  // function to get the value of a cookie
+  function getCookie(cookieName) {
+    var name = cookieName + "=";
+    var decodedCookie = decodeURIComponent(document.cookie);
+    var ca = decodedCookie.split(';');
+    for(var i = 0; i <ca.length; i++) {
+      var c = ca[i];
+      while (c.charAt(0) == ' ') {
+        c = c.substring(1);
+      }
+      if (c.indexOf(name) == 0) {
+        return c.substring(name.length, c.length);
+      }
+    }
+    return "";
+  }
+
+  if (checkCookie("ngrokAddress")) {
+    console.log("Cookie exists");
+    $("#stream").attr("src", getCookie("myCookie")+"/video");
+  } else {
+    console.log("Cookie does not exist");
+  }
+  
+  // console.log(getCookie("myCookie"));
+  
 });

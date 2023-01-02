@@ -10,14 +10,55 @@
     <link rel="shortcut icon" href="clutch.png" type="image/x-icon">
     <script src="./jquery-3.4.1.min.js"></script>
     <script src="./main.js"></script>
-    <!-- Include the JavaScript file -->
-    <script src="stream.js"></script>
 </head>
 <body>
     <?php
         
         if (isset($_SESSION['user'])) {
-            # code...?> 
+            if (!isset($_SESSION['ngrok_address'])) {
+            # code...?>
+                <div class="esp_now_modal">
+                    <div class="esp_now_container">
+                        <form action="./update_ngrok.php" method="POST" class="esp_now_form" >
+                            <div class="ip_container">
+                                <!-- content would be loaded dynamically with javascript -->
+                            </div>
+                            <label for="ngrok_address">Ngrok address:</label>
+                            <input type="text" name="ngrok_address" id="ngrok_address" placeholder="ngrok port forward address">
+                            <div class="esp_now_footer">
+                                <!-- content would be loaded dynamically with javascript -->
+                            </div>
+                        </form>
+                    </div>
+                </div>
+                <script>
+                    function refreshInput() {
+                        console.log("refreshing");
+                        $.ajax({
+                            url: 'ip_container.php',
+                            success: function(data) {
+                                $('.ip_container').html(data);
+                            }
+                        });
+                    }
+
+                    function refreshFooter() {
+                        console.log("refreshing");
+                        $.ajax({
+                            url: 'esp_now_footer.php',
+                            success: function(data) {
+                                $('.esp_now_footer').html(data);
+                            }
+                        });
+                    }
+                    refreshInput();
+                    refreshFooter();
+                    setInterval(refreshInput, 10000);
+                    setInterval(refreshFooter, 10000);
+                </script>
+
+                <?php 
+            } ?>
             <nav>
                 Robocar
                 <a class="logout_button" href="./logout.php">logout</a>
@@ -25,7 +66,7 @@
             <div class="videostream">
                 <!-- <img alt="robocar video stream" id="stream" src="./IMAGE/_jane.m_-20201013-0002.jpg" > -->
                 <!-- <img alt="robocar video stream" id="stream" src="http://192.168.95.43:81/stream" crossorigin > -->
-                <img alt="robocar video stream" id="stream" src="https://33cc-197-210-226-215.eu.ngrok.io/video">
+                <img alt="robocar video stream" id="stream" src="./IMAGE/default-image.png">
                 <div class="camera_control">
                     <form action="updateDb.php" method="POST" class="camera_form">
                         <button data-direction="cam_left" id="camera-left" type="button" class="camera-buttons">
