@@ -2,8 +2,8 @@
 int in1 = 4; // In1 of L298N connected to pin 4 of Arduino
 int in2 = 5; // In2 of L298N connected to pin 5 of Arduino
 
-// forward left and backward green wire connected to OUT1 of L298N
-// forward left and backward white wire connected to OUT2 of L298N
+// forward left and backward left green wire connected to OUT1 of L298N
+// forward left and backward left white wire connected to OUT2 of L298N
 int GREEN = in1; 
 int WHITE = in2; 
 

@@ -1,7 +1,7 @@
 
 #include "esp_camera.h"
-#include "WiFiClient.h"
 #include "WiFi.h"
+#include "WiFiClient.h"
 #include "HTTPClient.h"
 
 // Pin definition for CAMERA_MODEL_AI_THINKER
@@ -66,11 +66,11 @@ void setup() {
   
   if(psramFound()){
     config.frame_size = FRAMESIZE_SVGA; // FRAMESIZE_ + QVGA|CIF|VGA|SVGA|XGA|SXGA|UXGA
-    config.jpeg_quality = 30;
+    config.jpeg_quality = 10;
     config.fb_count = 2;
   } else {
     config.frame_size = FRAMESIZE_SVGA;
-    config.jpeg_quality = 30;
+    config.jpeg_quality = 10;
     config.fb_count = 2;
   }
 

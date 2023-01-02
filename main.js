@@ -51,12 +51,12 @@ $(document).ready(function() {
   });
 
   let imageUrl;
-  setInterval(function() {
-    // imageUrl = "https://c689-197-210-78-157.eu.ngrok.io/cam.mjpeg?"+Math.random();
-    imageUrl = "https://c689-197-210-78-157.eu.ngrok.io/cam.mjpeg?";
-    $("#stream").attr("src", imageUrl);
-    // imageUrl = (imageUrl == "st.jpg") ? "image2.jpg" : "st.jpg";
-  }, 250);
+  // setInterval(function() {
+  //   // imageUrl = "https://c689-197-210-78-157.eu.ngrok.io/cam.mjpeg?"+Math.random();
+  //   imageUrl = "https://c689-197-210-78-157.eu.ngrok.io/cam.mjpeg?";
+  //   $("#stream").attr("src", imageUrl);
+  //   // imageUrl = (imageUrl == "st.jpg") ? "image2.jpg" : "st.jpg";
+  // }, 250);
     
   // setInterval(function() {
   //   $.ajax({

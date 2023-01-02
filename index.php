@@ -23,17 +23,9 @@
                 <a class="logout_button" href="./logout.php">logout</a>
             </nav>
             <div class="videostream">
-                <div id="stream_container">
-                    <!-- Add the canvas element -->
-                    <!-- <canvas id="video" width="640" height="480"></canvas> -->
-                    <!-- HTML5 video element for displaying the RTSP stream -->
-                    <!-- <video id="video" width="640" height="480" autoplay controls> -->
-                    <!-- Fallback for browsers that don't support the video element -->
-                    <!-- Your browser does not support the video element. -->
-                    <!-- </video> -->
-                    <!-- <video id="video" width="640" height="480" src="https://1c92-102-88-34-231.eu.ngrok.io/cam.mjpeg" autoplay controls> -->
-                    <img alt="robocar video stream" id="stream" src="https://6253-102-88-63-29.eu.ngrok.io/cam.mjpeg" >
-                </div>
+                <!-- <img alt="robocar video stream" id="stream" src="./IMAGE/_jane.m_-20201013-0002.jpg" > -->
+                <!-- <img alt="robocar video stream" id="stream" src="http://192.168.95.43:81/stream" crossorigin > -->
+                <img alt="robocar video stream" id="stream" src="https://33cc-197-210-226-215.eu.ngrok.io/video">
                 <div class="camera_control">
                     <form action="updateDb.php" method="POST" class="camera_form">
                         <button data-direction="cam_left" id="camera-left" type="button" class="camera-buttons">
