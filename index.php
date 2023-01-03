@@ -64,9 +64,8 @@
                 <a class="logout_button" href="./logout.php">logout</a>
             </nav>
             <div class="videostream">
-                <!-- <img alt="robocar video stream" id="stream" src="./IMAGE/_jane.m_-20201013-0002.jpg" > -->
-                <!-- <img alt="robocar video stream" id="stream" src="http://192.168.95.43:81/stream" crossorigin > -->
                 <img alt="robocar video stream" id="stream" src="./IMAGE/default-image.png">
+                <!-- <img alt="robocar video stream" id="stream" src="ac8d-197-210-226-59.eu.ngrok.io/video"> -->
                 <div class="camera_control">
                     <form action="updateDb.php" method="POST" class="camera_form">
                         <button data-direction="cam_left" id="camera-left" type="button" class="camera-buttons">

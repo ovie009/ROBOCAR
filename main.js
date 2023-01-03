@@ -86,7 +86,7 @@ $(document).ready(function() {
 
   if (checkCookie("ngrokAddress")) {
     console.log("Cookie exists");
-    $("#stream").attr("src", getCookie("myCookie")+"/video");
+    $("#stream").attr("src", getCookie("ngrokAddress")+"/video");
   } else {
     console.log("Cookie does not exist");
   }

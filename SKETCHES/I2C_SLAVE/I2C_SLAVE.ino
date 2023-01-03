@@ -1,21 +1,35 @@
 #include <Wire.h>
 
-// SDA - A4 or Arduino Uno connected to D2 of ESP8266
-// SCL - A4 or Arduino Uno connected to D3 of ESP8266
+const int SLAVE_ADDRESS = 8;  // Set the slave address
 
 void setup() {
-  Wire.begin(8);                // join I2C bus with address #8
-  Wire.onReceive(receiveEvent); // register event
-  Serial.begin(9600);           // start serial for output
+  Serial.begin(9600);  // start serial for output
+
+  // Initialize the slave
+  Wire.begin();        // join i2c bus (address optional for master)
+  Wire.begin(SLAVE_ADDRESS);
+  Wire.onReceive(receiveData);
+  Wire.onRequest(sendData);
+}
+
+// Function that executes whenever data is requested by the master
+void sendData() {
+  // Wire.beginTransmission(SLAVE_ADDRESS);  // start transmission to the slave
+  Wire.write("Hello from slave");  // send a string
+  // Wire.endTransmission();                 // end the transmission
+}
+
+// Function that executes whenever data is received from the master
+void receiveData(int numBytes) {
+  String data = "";
+  while (Wire.available()) {  // loop through all the received bytes
+    data += (char)Wire.read();  // add the received byte to the string
+  }
+  Serial.println(data);  // print the received data to the serial monitor
 }
 
 void loop() {
-  delay(100);
-}
-
-// function that executes whenever data is received from master
-// this function is registered as an event, see setup()
-void receiveEvent(int howMany) {
-  int x = Wire.read();    // receive byte as an integer
-  Serial.println(x);         // print the integer
+  // Do nothing here
+  Serial.println("slave running");
+  delay(1000);
 }

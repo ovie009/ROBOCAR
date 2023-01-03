@@ -3,40 +3,32 @@
     if (isset($_GET["id"])) {
         $id = $_GET['id'];
         $mode = $_GET['mode'];
-        $captured = $_GET['captured'];
+        $motion = $_GET['motion'];
         // sql query
-        $sql = "SELECT * FROM `robocar_datastream` WHERE id = ?;";
+        $sql = "SELECT `data`, `datetime` FROM `robocar_datastream` WHERE `id` = 1;";
     
-        // create prepared statement
-        $stmt = mysqli_stmt_init($connect);
+        // run query
+        $result = mysqli_query($connect, $sql);
     
-        // run prepared statement
-        if (!mysqli_stmt_prepare($stmt, $sql)) {
-            echo 'Query Failed';
-        } else {
-            // Bind parameters to the placeholder
-            mysqli_stmt_bind_param($stmt, "s", $id);
-            // run parameters inside database
-            mysqli_stmt_execute($stmt);
-            $result = mysqli_stmt_get_result($stmt);
-            while ($row = mysqli_fetch_assoc($result)) {
-                # code...
-                $data = $row['data'];
-                $dateTime = $row['datetime'];
-                $dateTime = strtotime($dateTime);
-                $currentDateTime = date('Y-m-d G:i:s');
-                $unixSeconds = date('U');
-                $timeElapsed = $unixSeconds - $dateTime;
-                if ($timeElapsed > 10) {
-                    echo '#N/A@';
-                } else {
-                    echo '#'.$data.'@';
-                }
+        while ($row = mysqli_fetch_assoc($result)) {
+            # code...
+            $data = $row['data'];
+            $dateTime = $row['datetime'];
+            $dateTime = strtotime($dateTime);
+            $unixSeconds = date('U');
+            $timeElapsed = $unixSeconds - $dateTime;
+            // amount of seconds to elapse to disregard input 
+            if ($timeElapsed > 5) {
+                echo '#N/A@';
+            } else {
+                echo '#'.$data.'@';
             }
         }
+        
+        $sql = "UPDATE `robocar_datastream` SET `mode` = '".$mode."', `motion_detected` = '".$motion."' WHERE `robocar_datastream`.`id` = 1;";
+        mysqli_query($connect, $sql);
     } else {
         # code...
         echo 'invalid back door';
     }
-    
-?>
+?>    

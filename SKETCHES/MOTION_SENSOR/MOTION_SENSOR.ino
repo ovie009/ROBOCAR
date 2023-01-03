@@ -12,4 +12,5 @@ void loop(){
  else {
    Serial.println("NO Motion Detected");
  }
+ delay(2000);
 } 

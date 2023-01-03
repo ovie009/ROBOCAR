@@ -5,6 +5,7 @@ const char* ssid = "spartans";
 const char* password = "profession";
 
 const char* host = "robotcar.000webhostapp.com";
+// const char* host = "192.168.100.138";
 const int httpPort = 80;
 
 byte binSignal = 0; //number to be sent to ARDUINO UNO via I2C
@@ -24,9 +25,8 @@ void setup() {
 void loop() {
 
   WiFiClient client;
-  modeSwitch = digitalRead(D1);
   
-  String url = "/rx.php?id=1&mode=";
+  String url = "/robocar/rx.php?id=1&mode=";
   if (client.connect(host, httpPort)) {
     client.print(String("GET ") + url + " HTTP/1.1\r\n" + "Host: " + host + "\r\n" + "Connection: close\r\n\r\n");
     unsigned long timeout = millis();
