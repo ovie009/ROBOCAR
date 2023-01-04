@@ -29,8 +29,8 @@
             if ($ipAddress == "N/A") {
                 ?> <em style="font-size: small;" class="esp_failed">ESP NOW CONNECTION FAILED: recommend reseting both esp modules</em> <?php
             } else {
-                ?> <span style="font-size: small;"> Run ngrok app, type <em>"ngrok http <?php echo $ipAddress; ?> "</em> copy the resulting ngrok port forward address and paste in in the input field. Also paste the address in your browser and click on visit
-                </span><?php
+                ?> <p class="esp_now_footer_text" style="font-size: small;"> Run ngrok app, type <em>"ngrok http <?php echo $ipAddress; ?> "</em> <button id="copy-button" class="copy-button" type="button">copy</button> the resulting ngrok port forward address and paste in in the input field. Also paste the address in your browser and click on visit
+                </p><?php
             }
         }
     }

@@ -492,7 +492,7 @@ button{
 
 .error_notice{
     position: fixed;
-    top: 100px;
+    top: 150px;
     width: 70%;
     max-width: 300px;
     display: grid;
@@ -503,8 +503,8 @@ button{
     border-radius: 5px;
     background-color: hsl(0, 80%, 90%);
     color: hsl(9, 100%, 54%);
-    /* font-weight: bold; */
-    display: none;
+    transition: 0.5s;
+    opacity: 0;
 }
 
 .login_submit{
@@ -604,6 +604,21 @@ button{
     font-size: small;
     font-style: italic;
 }
+
+#copy-button{
+    width: fit-content;
+    background-color: #4285f4;
+    color: white;
+    border-radius: 5px;
+    padding: 2px 5px;
+    display: inline-block;
+    margin-inline: 5px;
+    /* margin: 0; */
+}
+
+/* .esp_now_footer_text{
+    display: flex;
+} */
 
 /* custom scrollbar */
 ::-webkit-scrollbar{

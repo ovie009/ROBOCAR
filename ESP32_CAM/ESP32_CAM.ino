@@ -88,27 +88,27 @@ void loop() {
   Serial.print("motion: ");
   Serial.println(motionDetected);
 
-  // if (mode == "STREAM")
-  // {    
-  //   http_resp();
-  //   if(connected == true){
-  //     if (flash == 1) { turnOnFlash(); } 
-  //     else { turnOffFlash(); }
-  //     liveCam(live_client);
-  //   }
+  if (mode == "STREAM")
+  {    
+    http_resp();
+    if(connected == true){
+      if (flash == 1) { turnOnFlash(); } 
+      else { turnOffFlash(); }
+      liveCam(live_client);
+    }
     
-  // }
+  }
 
-  // else if (mode == "CAPTURE")
-  // {
-  //   if (motionDetected == 1)
-  //   {
-  //     String response;
-  //     response = captureImage();
-  //     Serial.println(response);
-  //     motionDetected = 0;
-  //   }
-  // }
+  else if (mode == "CAPTURE")
+  {
+    if (motionDetected == 1)
+    {
+      String response;
+      response = captureImage();
+      Serial.println(response);
+      motionDetected = 0;
+    }
+  }
   delay(1000);
 }
 
