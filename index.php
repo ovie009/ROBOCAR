@@ -60,7 +60,13 @@
                 <?php 
             } ?>
             <nav>
-                Robocar
+                <form action="" class="flash_form">
+                    <label for="flash">Flashlight</label>
+                    <input type="checkbox" name="flash" id="flash">
+                </form>
+                <a class="home-link" href="./index.php">
+                    Robocar
+                </a>
                 <a class="logout_button" href="./logout.php">logout</a>
             </nav>
             <div class="videostream">
@@ -125,28 +131,21 @@
                             R<img class="wheel left_w" src="./clutch.png" alt="car wheel icon"> B<img class="wheel right_w" src="./clutch.png" alt="car wheel icon"> CA <img class="camera_icon" src="./cctv-camera.png" alt="cctv-camera icon">
                         </strong>
                     </div>
+                    <div class="error_notice invalidUser">
+                        Invalid User!
+                    </div>
+                    <div class="error_notice incorrectPassword">
+                        Incorrect Password!
+                    </div>
                     <div class="login_modal">
                         <form action="loginHandler.php" method="post">
                             <h2 class="login_heading">Login Details</h2>
-                            <input type="text" id="user" name="user" placeholder="username" required>
+                            <input class="input_error" type="text" id="user" name="user" placeholder="username" required>
                             <input type="password" id="password-input" name="password" placeholder="password" required>
                             <div class="show_password_wrapper">
                                 <input type="checkbox" name="showPassword" id="show-password" > <label for="show-password">show password</label>
                             </div>
-                            <em class="error_notice">
-                                <?php
-                                    if (isset($_GET["incorrectPassword"])) {
-                                        # code...
-                                        echo 'Incorrect Password';
-                                    }
-
-                                    if (isset($_GET["invalidUsername"])) {
-                                        # code...
-                                        echo 'Invalid Username';
-                                    }
-                                ?>
-                            </em>
-                            <button type="submit" class="login_submit">Login</button>
+                            <button type="button" class="login_submit">Login</button>
                         </form>
                     </div>
                 </div>

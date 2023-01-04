@@ -9,6 +9,7 @@ $(document).ready(function() {
     }
   });
 
+  // checking if the same user has logged in from a different device
   setInterval(function() {
     $.ajax({
       type: 'POST',
@@ -28,7 +29,7 @@ $(document).ready(function() {
   }, 15000); // 5000 milliseconds = 5 seconds
     
   let intervalId;
-
+  // function to run on press and hold of a button
   $('.car-buttons, #right, .camera-buttons, .reset-camera').on('mousedown touchstart', function () {
     let direction = $(this).data("direction");
     intervalId = setInterval(function() {
@@ -46,6 +47,7 @@ $(document).ready(function() {
     }, 250);
   });
 
+  // function to run on press and hold of a button
   $('.car-buttons, .camera-buttons, .reset-camera').on('mouseup touchend', function () {
     clearInterval(intervalId);
   });
@@ -67,6 +69,19 @@ $(document).ready(function() {
     return false;
   }
 
+  // function to set Cookie
+  // the primary purpose of this function is to destroy cookie
+  // the ngrok cookie is set using php instead during the login phase
+  function setCookie(name, value, days) {
+    var expires = "";
+    if (days) {
+      var date = new Date();
+      date.setTime(date.getTime() + (days * 24 * 60 * 60 * 1000));
+      expires = "; expires=" + date.toUTCString();
+    }
+    document.cookie = name + "=" + (value || "") + expires + "; path=/";
+  }
+
   // function to get the value of a cookie
   function getCookie(cookieName) {
     var name = cookieName + "=";
@@ -84,13 +99,78 @@ $(document).ready(function() {
     return "";
   }
 
+  // check if a cookie for the ngrok image has been created 
   if (checkCookie("ngrokAddress")) {
     console.log("Cookie exists");
+    // if it has change the img link
     $("#stream").attr("src", getCookie("ngrokAddress")+"/video");
   } else {
     console.log("Cookie does not exist");
   }
   
-  // console.log(getCookie("myCookie"));
+  // if the img src in the stream isnt respomding, switch back to default image
+  $('#stream').on('error', function() {
+    // image could not be loaded
+    setCookie("ngrokAddress", '', -1);
+    $("#stream").attr("src", "./IMAGE/default-image.png");
+  });
+
+  // function to handle login
+  $('.login_submit').click(function() {
+    let user = $("#user").val()
+    let password = $("#password-input").val()
+    // console.log(user);
+    $.ajax({
+      type: 'POST',
+      url: 'login_handler.php',
+      data: { user: user, password: password },
+      success: function(data) {
+        console.log(data);
+        if (data === "successful") {
+          location.reload(true);
+        } else if (data === "incorrectPassword") {
+          $("#password-input").addClass("input_error");
+          $(".incorrectPassword").css("display", "grid");
+          setTimeout(() => {
+            $(".incorrectPassword").css("display", "none");
+          }, 2000);
+          
+        } else if (data === "invalidUser") {
+          $("#user").addClass("input_error");
+          $(".invalidUser").css("display", "grid");
+          setTimeout(() => {
+            $(".invalidUser").css("display", "none");
+          }, 2000);
+        }
+      }
+    });
+  });
+
+  $("#password-input, #user").keyup(function() {
+    $("#password-input, #user").removeClass("input_error");
+  });
+
+  
+  let flashState;
+  // function to make get request to update flash state in database
+  $('#flash').click(function() {
+    if ($(this).prop('checked')) {
+      flashState = 1;
+    } else {
+      flashState = 0;
+    }
+
+    $.ajax({
+      type: 'GET',
+      url: 'update_flash.php',
+      data: { flash: flashState },
+      success: function(data) {
+        console.log(data);
+      }
+    });
+
+  });
+
+
   
 });

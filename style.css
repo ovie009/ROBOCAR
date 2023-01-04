@@ -81,6 +81,27 @@ nav{
     position: relative;
 }
 
+.flash_form{
+    position: absolute;
+    left: 10px;
+    text-transform: capitalize;
+    display: flex;
+    gap: 10px;
+    font-size: small;
+    font-weight: normal;
+}
+
+input[type=checkbox] {
+    width: 15px;
+    background-color: hsl(0, 0%, 65%);
+    border-radius: 50%;
+}
+
+.home-link{
+    text-decoration: none;
+    color: inherit;
+}
+
 .logout_button{
     position: absolute;
     right: 10px;
@@ -374,6 +395,11 @@ button{
     animation-delay: 3s;
 }
 
+.input_error{
+    /* border: 1px solid red; */
+    box-shadow: 0 0 2px 2px tomato;
+}
+
 @keyframes camera {
     0% {
         transform: scaleX(-1) rotate(0deg);
@@ -408,7 +434,7 @@ button{
     background-color: teal;
     border-radius: 10px;
     box-shadow: 0px 0px 10px lightgray;
-    background-color: hsl(0, 0%, 10%);
+    background-color: hsl(0, 0%, 13%);
 }
 
 .login_modal form{
@@ -431,6 +457,29 @@ button{
     width: 100%;
     padding: 7.5px 5px;
     outline: none;
+    background-color: hsl(0, 0%, 10%);
+    color: white;
+    border-radius: 5px;
+}
+
+/* Change Autocomplete styles in Chrome*/
+input:-webkit-autofill,
+input:-webkit-autofill:hover, 
+input:-webkit-autofill:focus
+input:-webkit-autofill, 
+textarea:-webkit-autofill,
+textarea:-webkit-autofill:hover
+textarea:-webkit-autofill:focus,
+select:-webkit-autofill,
+select:-webkit-autofill:hover,
+select:-webkit-autofill:focus {
+  border: 1px solid darkgray;
+  -webkit-text-fill-color: white;
+  box-shadow: 0 0 0px 1000px hsl(0, 0%, 10%) inset;
+}
+
+button{
+    cursor: pointer;
 }
 
 .show_password_wrapper{
@@ -442,9 +491,20 @@ button{
 }
 
 .error_notice{
-    width: 100%;
-    text-align: center;
-    color: var(--reset-button-color);
+    position: fixed;
+    top: 100px;
+    width: 70%;
+    max-width: 300px;
+    display: grid;
+    place-content: center;
+    height: 60px;
+    z-index: 10;
+    border: 1px solid tomato;
+    border-radius: 5px;
+    background-color: hsl(0, 80%, 80%);
+    color: tomato;
+    font-weight: bold;
+    display: none;
 }
 
 .login_submit{
@@ -462,7 +522,7 @@ button{
     top: 0;
     left: 0;
     z-index: 100;
-    background-color: hsla(0, 0%, 100%, 0.6);
+    background-color: hsla(0, 0%, 10%, 0.9);
     display: grid;
     place-items: center;
     color: black;
@@ -471,10 +531,11 @@ button{
 .esp_now_container{
     width: 90%;
     max-width: 500px;
-    height: 275px;
-    background-color: white;
-    box-shadow: 0 0 10px 5px hsl(0, 0%, 40%);
+    min-height: 275px;
+    box-shadow: 0px 0px 10px lightgray;
+    background-color: hsl(0, 0%, 13%);
     border-radius: 5px;
+    color: white;
 }
 
 .esp_now_form{
@@ -503,7 +564,8 @@ button{
     width: 70%;
     border-radius: 5px 0 0 5px;
     border: 1px solid darkgray;
-    background-color: hsl(0, 0%, 93%);
+    background-color: hsl(0, 0%, 15%);
+    color: white;
 }
 
 .esp_now_submit{
@@ -522,6 +584,8 @@ button{
     outline: none;
     border-radius: 5px;
     border: 1px solid darkgray;
+    background-color: hsl(0, 0%, 10%);
+    color: white;
 }
 
 .esp_now_form input::placeholder{
@@ -539,4 +603,27 @@ button{
 .old_ip_notice{
     font-size: small;
     font-style: italic;
+}
+
+/* custom scrollbar */
+::-webkit-scrollbar{
+    width: 10px;
+    border-radius: 50%;
+    margin: 30px 0;
+}
+
+::-webkit-scrollbar-track{
+    background-color: transparent;
+}
+
+::-webkit-scrollbar-thumb{
+    background-color: darkgray;
+    border-radius: 5px;
+    box-sizing: border-box;
+    border: 2px solid black;
+    width: 100%;
+}
+
+::-webkit-scrollbar-thumb:hover{
+    background-color: black;
 }

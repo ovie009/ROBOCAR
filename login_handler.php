@@ -35,14 +35,16 @@
                         $_SESSION['login_timestamp'] = $dateTime;
                         $sql = "UPDATE `login` SET `datetime` = '".$dateTime."' WHERE `login`.`id` = 1;";
                         mysqli_query($connect, $sql);
-                        // echo "successful";
-                        header("location: index.php?successful");
+                        echo "successful";
+                        // header("location: index.php?successful");
                         
                     } else {
-                        header("location: index.php?incorrectPassword");
+                        echo "incorrectPassword";
+                        // header("location: index.php?incorrectPassword");
                     }
                 } else {
-                    header("location: index.php?invalidUsername");
+                    echo "invalidUser";
+                    // header("location: index.php?invalidUsername");
                 }
             }
             mysqli_stmt_close($stmt);
