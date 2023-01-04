@@ -499,11 +499,11 @@ button{
     place-content: center;
     height: 60px;
     z-index: 10;
-    border: 1px solid tomato;
+    border: 1px solid hsl(9, 100%, 54%);
     border-radius: 5px;
-    background-color: hsl(0, 80%, 80%);
-    color: tomato;
-    font-weight: bold;
+    background-color: hsl(0, 80%, 90%);
+    color: hsl(9, 100%, 54%);
+    /* font-weight: bold; */
     display: none;
 }
 
