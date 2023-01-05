@@ -156,7 +156,7 @@
                     <div class="login_modal">
                         <form action="loginHandler.php" method="post">
                             <h2 class="login_heading">Login Details</h2>
-                            <input class="input_error" type="text" id="user" name="user" placeholder="username" required>
+                            <input type="text" id="user" name="user" placeholder="username" required>
                             <input type="password" id="password-input" name="password" placeholder="password" required>
                             <div class="show_password_wrapper">
                                 <input type="checkbox" name="showPassword" id="show-password" > <label for="show-password">show password</label>

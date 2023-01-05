@@ -1,8 +1,13 @@
 #include <Servo.h>
 #include <SoftwareSerial.h>
+#include <Wire.h>
 
-//Create software serial object to communicate with SIM800L
+//Create software serial object to communicate
 SoftwareSerial mySerial(3, 2); //SIM800L Tx & Rx is connected to Arduino #3 & #2
+// SoftwareSerial serial(11, 10); // RX, TX with ESP8266
+
+const int SLAVE_ADDRESS = 8; // the slave address
+
 String phoneNumber = "+2348165266847";
 String message = "Motion Detected in ROBOBAR capture mode, check image here robotcar.000webhostapp.com/capture.php";
 
@@ -32,26 +37,18 @@ int FR_BLACK = in4;
 int BR_RED = in4;
 int BR_BLACK = in3; 
 
-int motion; // variables for motion sensor
-int motionSensor = 8; // motion sensor attached to digital pin 9
 String mode; // mode variable
 int modeLed = 13; // mode LED indicator
 
-SoftwareSerial serial(11, 10); // RX, TX with ESP8266
-
-String dataFromServer = "null";
+String dataFromServer;
 String dataFromESP;
 
 void setup() {
-  Serial.begin(9600); // start serial for output
-
-  pinMode(motionSensor, INPUT); // declare pinmode for motion sensor
-  pinMode(modeSwitch, INPUT); // declare pinmode for mode switch
+  Serial.begin(115200); // start serial for output
 
   pinMode(modeLed, OUTPUT); // declare pinmode for mode led indicator
-  readValues(); // readvalues of motion sensor and mode switch
 
-  // oins for motor
+  // pins for motor
   pinMode(in1, OUTPUT);
   pinMode(in2, OUTPUT);
   pinMode(in3, OUTPUT);
@@ -61,16 +58,19 @@ void setup() {
   myservo.write(servoAngle);  // sets the servo position according to the scaled value
 
   //Begin serial communication with Arduino and ESP8266
-  serial.begin(9600);
+  // serial.begin(115200);
+
+  Wire.begin(SLAVE_ADDRESS); // join the I2C bus as a slave
+  Wire.onReceive(receiveData); // register the receive callback
 
   //Begin serial communication with Arduino and SIM800L
   mySerial.begin(9600);
 }
 
 void loop() {
-  dataFromESP = receiveString();
+  // dataFromESP = receiveString();
   getData(); // get dataFromServer and Mode
-  readMotion(); // detect motion sensor and send it to ESP8266
+  indicateMode();
   // use dataFromServer
   if (dataFromServer == "N/A") { moveStop(); }
   else if (dataFromServer == "car_forward") { moveForward(); }
@@ -88,53 +88,38 @@ void loop() {
   // loop delay comes from respective functions
 }
 
-String receiveString() {
-  // Create a string to store the received data
-  String str = "";
-
-  // Read data from the serial port until a newline character is received
-  while (true) {
-    // Serial.println("inside loop");
-    if (serial.available() > 0) {
-      char c = serial.read();
-      // Serial.println("inside serial");
-      if (c == '#') {
-        break;
-      }
-      str += c;
-    }
-  }
-  return str;
-}
-
 // turn on mode led to indicate mode
 void indicateMode() {
   if (mode == "CAPTURE")
   {
     /* code */
-    digitalWrite(modeLed, HIGH);
-  }
-  else
+    digitalWrite(modeLed, 1);
+  } else if (mode == "STREAM")
   {
     /* code */
-    digitalWrite(modeLed, LOW);
+    digitalWrite(modeLed, 0);
   }
   
 }
 
-void readMotion(){
-  motion = digitalRead(motionSensor);
-  Serial.print("motion: ");
-  Serial.println(motion);
-  serial.write(readMotion()); // send motion detected status to esp
-}
-
 void getData() {
   int delimiterIndex = dataFromESP.indexOf('#');
-
   dataFromServer = dataFromESP.substring(0, delimiterIndex);
-  mode = dataFromESP.substring(delimiterIndex + 1);
+  mode = dataFromESP.substring(delimiterIndex + 1); 
+  Serial.print("mode: "); 
+  Serial.print(mode); 
   indicateMode(); // turn on mode led
+}
+
+
+// called when data is received from the master
+void receiveData(int numBytes) {
+  String data = "";
+  while (Wire.available()) { // loop through all received bytes
+    data += (char)Wire.read(); // add the byte to the string
+  }
+  Serial.println("Received: " + data); // print the received data
+  dataFromESP = data;
 }
 
 

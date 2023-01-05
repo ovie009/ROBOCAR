@@ -27,9 +27,11 @@
                 $mode = $row['mode'];
                 $flash = $row['flash'];
                 $motionDetected = $row['motion_detected'];
+                $tolerance = $row['tolerance'];
+
 
                 // echo $mode."#".$row."#".$motion_detected;
-                echo $mode."#".$flash."&".$motionDetected;
+                echo $mode."#".$flash."&".$motionDetected.'@'.$tolerance;
 
             }
         }

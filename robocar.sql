@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Dec 12, 2022 at 11:09 PM
+-- Generation Time: Jan 05, 2023 at 01:38 PM
 -- Server version: 10.4.25-MariaDB
 -- PHP Version: 8.1.10
 
@@ -24,20 +24,41 @@ SET time_zone = "+00:00";
 -- --------------------------------------------------------
 
 --
--- Table structure for table `login`
+-- Table structure for table `ip`
 --
 
--- CREATE TABLE `login` (
---   `id` int(11) NOT NULL,
---   `user` varchar(20) NOT NULL DEFAULT 'ROBOCAR_ADMIN',
---   `password` varchar(50) NOT NULL DEFAULT 'Robocar&@!%(*^#%$'
--- ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+CREATE TABLE `ip` (
+  `id` int(99) NOT NULL,
+  `address` varchar(20) DEFAULT NULL,
+  `datetime` datetime NOT NULL DEFAULT current_timestamp()
+) DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `ip`
+--
+
+INSERT INTO `ip` (`id`, `address`, `datetime`) VALUES
+(1, '192.168.109.43', '2023-01-05 13:13:22');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `login`
+--
 
 CREATE TABLE `login` (
   `id` int(11) NOT NULL,
   `user` varchar(20) NOT NULL DEFAULT 'ROBOCAR_ADMIN',
-  `password` varchar(50) NOT NULL DEFAULT 'Robocar&@!%(*^#%$'
-);
+  `password` varchar(50) NOT NULL DEFAULT 'Robocar&@!%(*^#%$',
+  `datetime` datetime NOT NULL DEFAULT current_timestamp()
+) DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `login`
+--
+
+INSERT INTO `login` (`id`, `user`, `password`, `datetime`) VALUES
+(1, 'ROBOCAR_ADMIN', 'Robocar&@!%(*^#%$', '2023-01-05 13:08:04');
 
 -- --------------------------------------------------------
 
@@ -45,30 +66,32 @@ CREATE TABLE `login` (
 -- Table structure for table `robocar_datastream`
 --
 
--- CREATE TABLE `robocar_datastream` (
---   `id` int(11) NOT NULL,
---   `data` varchar(20) DEFAULT NULL,
---   `datetime` datetime NOT NULL DEFAULT current_timestamp(),
---   `mode` varchar(20) NOT NULL DEFAULT 'stream'
--- ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-
 CREATE TABLE `robocar_datastream` (
   `id` int(11) NOT NULL,
   `data` varchar(20) DEFAULT NULL,
   `datetime` datetime NOT NULL DEFAULT current_timestamp(),
-  `mode` varchar(20) NOT NULL DEFAULT 'stream'
-);
+  `motion_detected` int(1) NOT NULL DEFAULT 0,
+  `flash` int(1) NOT NULL DEFAULT 0,
+  `mode` text NOT NULL DEFAULT 'STREAM',
+  `tolerance` text NOT NULL DEFAULT 'AVERAGE'
+) DEFAULT CHARSET=utf8mb4;
 
 --
 -- Dumping data for table `robocar_datastream`
 --
 
-INSERT INTO `robocar_datastream` (`id`, `data`, `datetime`, `mode`) VALUES
-(1, 'car_right', '2022-12-12 23:02:50', 'stream');
+INSERT INTO `robocar_datastream` (`id`, `data`, `datetime`, `motion_detected`, `flash`, `mode`, `tolerance`) VALUES
+(1, 'reset', '2023-01-05 11:17:20', 0, 0, 'STREAM', 'LOW');
 
 --
 -- Indexes for dumped tables
 --
+
+--
+-- Indexes for table `ip`
+--
+ALTER TABLE `ip`
+  ADD PRIMARY KEY (`id`);
 
 --
 -- Indexes for table `login`
@@ -87,10 +110,16 @@ ALTER TABLE `robocar_datastream`
 --
 
 --
+-- AUTO_INCREMENT for table `ip`
+--
+ALTER TABLE `ip`
+  MODIFY `id` int(99) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+
+--
 -- AUTO_INCREMENT for table `login`
 --
 ALTER TABLE `login`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT for table `robocar_datastream`

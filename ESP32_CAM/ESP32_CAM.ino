@@ -154,8 +154,8 @@ void configCamera(){
   // FRAMESIZE_XGA: 1024x768 pixels
   // FRAMESIZE_SXGA: 1280x1024 pixels
   // FRAMESIZE_UXGA: 1600x1200 pixels
-  config.frame_size = FRAMESIZE_VGA;
-  config.jpeg_quality = 5;
+  config.frame_size = FRAMESIZE_SVGA;
+  config.jpeg_quality = 10;
   // The config.jpeg_quality field determines the quality of the images captured
   // It can be set to a value between 0 and 63, the higher the  value the lower the quality
   config.fb_count = 2;
@@ -256,8 +256,8 @@ String captureImage() {
   String response;
   // Create an HTTP client and set the destination URL
   HTTPClient http;
-  // http.begin("https://robotcar.000webhostapp.com/image.php");
-  http.begin("http://192.168.109.138/robocar/image.php");
+  http.begin("https://robotcar.000webhostapp.com/image.php");
+  // http.begin("http://192.168.109.138/robocar/image.php");
 
   // Set the content type to image/jpeg
   http.addHeader("Content-Type", "image/jpeg");
@@ -293,7 +293,8 @@ String requestSettings() {
   HTTPClient http;
 
   // Set the URL for the request
-  String url = "http://192.168.109.138/robocar/settings.php?IP="+IP;
+  String url = "https://robotcar.000webhostapp.com/settings.php?IP="+IP;
+  // String url = "http://192.168.109.138/robocar/settings.php?IP="+IP;
 
   // Send the GET request
   http.begin(url);
@@ -323,5 +324,5 @@ void processSettings(String settingsData) {
   mode = settingsData.substring(0, firstDelimiterIndex);
   flash = settingsData.substring(firstDelimiterIndex + 1, secondDelimiterIndex).toInt();
   motionDetected = settingsData.substring(secondDelimiterIndex + 1, thirdDelimiterIndex).toInt();
-  tolerance = settingsData.substring(thirdlimiterIndex + 1);
+  tolerance = settingsData.substring(thirdDelimiterIndex + 1);
 }

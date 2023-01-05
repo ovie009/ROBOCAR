@@ -198,9 +198,9 @@ $(document).ready(function() {
     }
   }
   streamLinkSaved(); // check for stream link
-  defaultImag(); // if no link, swicth to default image
+  defaultImage(); // if no link, swicth to default image
   
-  function defaultImag(force) {
+  function defaultImage(force) {
     // if the img src in the stream isnt respomding, switch back to default image
     $('#stream').on('error', function() {
       // image could not be loaded
@@ -218,7 +218,7 @@ $(document).ready(function() {
     if (getCookie("mode") == "STREAM") {
       streamLinkSaved();
     } else if (getCookie("mode") == "CAPTURE") {
-      defaultImag(true); // switch to default image
+      defaultImage(true); // switch to default image
     }
   }
 
@@ -290,6 +290,7 @@ $(document).ready(function() {
       success: function(data) {
         setCookie('mode', mode, 1);
         showTolerance();
+        switchImages();
       }
     });
 

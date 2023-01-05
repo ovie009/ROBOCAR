@@ -1,4 +1,9 @@
-<?php session_start(); ?>
+<?php 
+    include_once "./database_connect.php";
+    $data = "reset";
+    $sql = "UPDATE `robocar_datastream` SET `data` = '".$data."' WHERE `robocar_datastream`.`id` = 1;";
+    mysqli_query($connect, $sql);
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
