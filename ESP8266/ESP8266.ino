@@ -1,11 +1,12 @@
-#include "Wire.h"
 #include "ESP8266WiFi.h"
+#include "SoftwareSerial.h"
 
+SoftwareSerial serial(D6, D5); // RX, TX
 const char* ssid = "spartans";
 const char* password = "profession";
 
 // const char* host = "robotcar.000webhostapp.com";
-const char* host = "192.168.100.138";
+const char* host = "192.168.109.138";
 const int httpPort = 80;
 
 String dataFromServer; //data to be sent to ARDUINO UNO via I2C
@@ -13,11 +14,10 @@ const int SLAVE_ADDRESS = 8;  // Set the slave address
 
 String mode; // mode switch connected to D0 of ESP8266
 String prevMode; // variable to detect switch in operation mode
-int motionSensor; // mode switch connected to D1 of ESP8266
+int motion; // variable to store motion detected state and send it to server
 
 void setup() {
   Serial.begin(115200);
-  Wire.begin(D2, D1); // (SDA, SCL) join I2C bus (address optional for master)
   WiFi.begin(ssid, password);
   while (WiFi.status() != WL_CONNECTED) {
     delay(500);
@@ -25,14 +25,17 @@ void setup() {
   }
   Serial.println("Connected to the WiFi network");
 
+  // begin serial communication with arduino
+  serial.begin(9600);
+
   getSettings();
   // prevMode = mode;
 }
 
 void loop() {
-  getSettings();
-  makeGetRequest();
-  wireData(); // send data to Arduino Uno
+  motion = detectMotion(); // get the motion detected state from Arduino
+  makeGetRequest(); // this function updates the values of dataFromServer and mode
+  sendString(dataFromServer+"#"+mode);
   delay(100);
 }
 
@@ -41,7 +44,7 @@ void makeGetRequest() {
   WiFiClient client;
   Serial.println("inside get request");
   
-  String url = "/robocar/rx.php?id=1&mode="+mode+"&motion="+motionSensor;
+  String url = "/robocar/rx.php?id=1&motion="+motion;
   if (client.connect(host, httpPort)) {
     client.print(String("GET ") + url + " HTTP/1.1\r\n" + "Host: " + host + "\r\n" + "Connection: close\r\n\r\n");
     unsigned long timeout = millis();
@@ -55,15 +58,12 @@ void makeGetRequest() {
 
     while(client.available()) {
       String payload = client.readStringUntil('\r');
-      // find the index of th '#' character          
-      int startIndex = payload.indexOf('#') + 1; 
-      // find the index of th '#' character          
-      int endIndex = payload.indexOf('@'); 
+      // find the index of th '#' character      
+      int delimiterIndex = payload.indexOf('#');
 
-      // get payload
-      dataFromServer = payload.substring(startIndex, endIndex);
-      // Serial.println(payload);
-      // Serial.println(payloadGet);
+      dataFromServer = payload.substring(0, delimiterIndex);
+      mode = payload.substring(delimiterIndex + 1);    
+      
       Serial.println(dataFromServer);
     }
   } else {
@@ -72,19 +72,22 @@ void makeGetRequest() {
   client.stop();
 }
 
-// send data to Arduino Uno via I2C
-void wireData(){
-  // Send data to the slave
-  Wire.beginTransmission(SLAVE_ADDRESS);  // start transmission to the slave
-  for (int i = 0; i < dataFromServer.length(); i++) { // loop through each character
-    Wire.write(dataFromServer[i]); // send the character
-  }
-  Wire.endTransmission();    // stop transmitting
+// function to send message to arduino uno
+void sendString(String str) {
+  // Convert the string to a character array
+  char data[str.length() + 1];
+  str.toCharArray(data, str.length() + 1);
+
+  // Send the character array to the Arduino
+  serial.write(data);
 }
 
-// get mode switch values and motion sensor values
-void getSettings() {
-  mode = "STREAM";
-  motionSensor = 0;
+// function to receive message from arduino uno, the motion data
+int detectMotion() {
+  int data;
+  if (serial.available() > 0) {  
+    data = serial.read();
+  }     
+  return data;
 }
 

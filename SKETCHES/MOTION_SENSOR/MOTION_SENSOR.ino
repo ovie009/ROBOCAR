@@ -1,4 +1,4 @@
-int pirPin = 13;                 // PIR Out pin 
+int pirPin = 8;                 // PIR Out pin 
 int pirStat = 0;                   // PIR status
 void setup() {
  pinMode(pirPin, INPUT);     

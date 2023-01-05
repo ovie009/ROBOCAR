@@ -1,4 +1,3 @@
-#include <Wire.h>
 #include <Servo.h>
 #include <SoftwareSerial.h>
 
@@ -34,23 +33,20 @@ int BR_RED = in4;
 int BR_BLACK = in3; 
 
 int motion; // variables for motion sensor
-int motionSensor = A1; // motion sensor attached to Analog pin A1
+int motionSensor = 8; // motion sensor attached to digital pin 9
 String mode; // mode variable
-int modeSwitch = A0; // mode switch attached to Analog pin A0
-int modeLed = 8; // mode LED indicator
+int modeLed = 13; // mode LED indicator
 
-const int SLAVE_ADDRESS = 8;  // Set the slave address
+SoftwareSerial serial(11, 10); // RX, TX with ESP8266
 
 String dataFromServer = "null";
+String dataFromESP;
 
 void setup() {
   Serial.begin(9600); // start serial for output
 
-  // Initialize the slave
-  Wire.begin();        // join i2c bus (address optional for master)
-  Wire.begin(SLAVE_ADDRESS);
-  Wire.onReceive(receiveData);
-  Wire.onRequest(sendData);
+  pinMode(motionSensor, INPUT); // declare pinmode for motion sensor
+  pinMode(modeSwitch, INPUT); // declare pinmode for mode switch
 
   pinMode(modeLed, OUTPUT); // declare pinmode for mode led indicator
   readValues(); // readvalues of motion sensor and mode switch
@@ -61,16 +57,21 @@ void setup() {
   pinMode(in3, OUTPUT);
   pinMode(in4, OUTPUT);
 
-  myservo.attach(9);  // attaches the servo on pin 9 to the servo object
+  myservo.attach(9);  // attaches the servo on pin 10 to the servo object
   myservo.write(servoAngle);  // sets the servo position according to the scaled value
+
+  //Begin serial communication with Arduino and ESP8266
+  serial.begin(9600);
 
   //Begin serial communication with Arduino and SIM800L
   mySerial.begin(9600);
 }
 
 void loop() {
-  readValues();
-  getData();
+  dataFromESP = receiveString();
+  getData(); // get dataFromServer and Mode
+  readMotion(); // detect motion sensor and send it to ESP8266
+  // use dataFromServer
   if (dataFromServer == "N/A") { moveStop(); }
   else if (dataFromServer == "car_forward") { moveForward(); }
   else if (dataFromServer == "car_backward") { moveBackward(); }
@@ -78,7 +79,7 @@ void loop() {
   else if (dataFromServer == "car_right") { moveRight(); }
   else if (dataFromServer == "cam_left") { moveStop(); camLeft(); } 
   else if (dataFromServer == "cam_right") { moveStop(); camRight(); }
-  else if (dataFromServer == "reset") { moveStop(); }
+  else if (dataFromServer == "reset") { moveStop(); camCenter(); }
   else if (dataFromServer == "captured_image") { 
     moveStop(); sendTextMessage(phoneNumber, message);  
   } else { delay(1000); }
@@ -87,55 +88,53 @@ void loop() {
   // loop delay comes from respective functions
 }
 
-// read state of motion sensor and mode switch
-void readValues() {
-  motion = analogRead(motionSensor);
-  if (analogRead(modeSwitch) > 900) {
-    mode = "STREAM";
-  digitalWrite(modeLed, 1);  
-  } else {
-    mode = "CAPTURE";
-    digitalWrite(modeLed, 0);  
-  }
+String receiveString() {
+  // Create a string to store the received data
+  String str = "";
 
-  if (analogRead(motionSensor) > 900) {
-    motion = 1;
-  } else {
-    motion = 0;
+  // Read data from the serial port until a newline character is received
+  while (true) {
+    // Serial.println("inside loop");
+    if (serial.available() > 0) {
+      char c = serial.read();
+      // Serial.println("inside serial");
+      if (c == '#') {
+        break;
+      }
+      str += c;
+    }
   }
+  return str;
+}
 
-  Serial.println("PRINTING RESULTS FROM readValues() FUNCTION");
-  Serial.print("mode: ");
-  Serial.println(mode);
-  Serial.print("mode value: ");
-  Serial.println(analogRead(motionSensor));
+// turn on mode led to indicate mode
+void indicateMode() {
+  if (mode == "CAPTURE")
+  {
+    /* code */
+    digitalWrite(modeLed, HIGH);
+  }
+  else
+  {
+    /* code */
+    digitalWrite(modeLed, LOW);
+  }
+  
+}
+
+void readMotion(){
+  motion = digitalRead(motionSensor);
   Serial.print("motion: ");
   Serial.println(motion);
-}
-
-
-// Function that executes whenever data is requested by the master
-void sendData() {
-  // Wire.beginTransmission(SLAVE_ADDRESS);  // start transmission to the slave
-  Wire.write("Hello from slave");  // send a string
-  // Wire.endTransmission();                 // end the transmission
-}
-
-// Function that executes whenever data is received from the master
-void receiveData(int numBytes) {
-  dataFromServer = "";
-  while (Wire.available()) {  // loop through all the received bytes
-    dataFromServer += (char)Wire.read(); // add the received byte to the string
-  }
-  Serial.println(dataFromServer);  // print the received data to the serial monitor
+  serial.write(readMotion()); // send motion detected status to esp
 }
 
 void getData() {
-     // Check if there is a message available on the serial port
-  if (Serial.available() > 0) {
-    // Read the message
-    dataFromServer = Serial.readString();
-  }
+  int delimiterIndex = dataFromESP.indexOf('#');
+
+  dataFromServer = dataFromESP.substring(0, delimiterIndex);
+  mode = dataFromESP.substring(delimiterIndex + 1);
+  indicateMode(); // turn on mode led
 }
 
 
@@ -207,7 +206,7 @@ void moveStop() {
 // function to turn camera attached on servo to the right
 void camRight() {
   // check if servo angle has reached its minimum value
-  if (servoAngle > 0) { servoAngle -= 2.5; }
+  if (servoAngle > 0) { servoAngle -= 10; }
   else { servoAngle = 0; }
   myservo.write(servoAngle);  
   delay(10);
@@ -215,8 +214,15 @@ void camRight() {
 
 void camLeft() {
   // check if servo angle has reached its maximum value
-  if (servoAngle < 180) { servoAngle += 2.5; }
+  if (servoAngle < 180) { servoAngle += 10; }
   else { servoAngle = 180; }
+  myservo.write(servoAngle);  
+  delay(10);
+}
+
+void camCenter() {
+  // check if servo angle has reached its maximum value
+  servoAngle = 90;
   myservo.write(servoAngle);  
   delay(10);
 }

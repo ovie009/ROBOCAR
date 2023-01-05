@@ -9,6 +9,7 @@
     echo 'saved image';
 
     $motion = 0;
-    $sql = "UPDATE `robocar_datastream` SET `motion_detected` = '".$motion."' WHERE `robocar_datastream`.`id` = 1;";
+    $data = "captured_image";
+    $sql = "UPDATE `robocar_datastream` SET `data` = '".$data."', `datetime` = CURRENT_TIMESTAMP,`motion_detected` = '".$motion."' WHERE `robocar_datastream`.`id` = 1;";
     mysqli_query($connect, $sql);
 ?>

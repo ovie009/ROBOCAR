@@ -37,6 +37,42 @@ $(document).ready(function() {
     }
   });
 
+  // get the  mode from the database
+  $.ajax({
+    type: 'GET',
+    data: { id: 1 },
+    url: 'get_mode.php',
+    success: function(response) {
+      $('#mode').html(response);
+    }
+  });
+
+  let capturedInterval;
+  // get if image was every 10 seconds
+  function checkCapturedImage() {
+    capturedInterval = setInterval(() => {
+      $.ajax({
+        type: 'GET',
+        data: { id: 1 },
+        url: 'get_capture.php',
+        success: function(response) {
+          $('.captured_image_notice').html(response);
+        }
+      });
+    }, 3000);
+  }
+  checkCapturedImage();
+
+  // get the  tolerance from the database
+  $.ajax({
+    type: 'GET',
+    data: { id: 1 },
+    url: 'get_tolerance.php',
+    success: function(response) {
+      $('#tolerance').html(response);
+    }
+  });
+
   // checking if the same user has logged in from a different device
   setInterval(function() {
     $.ajax({
@@ -55,24 +91,39 @@ $(document).ready(function() {
       }
     });
   }, 15000); // 5000 milliseconds = 5 seconds
-    
+
+  // show tolerance select fucntion
+  function showTolerance() {
+    if (getCookie("mode") == "STREAM") {
+      $('.tolerance_form').css({display: "none"});
+      // clearInterval(capturedInterval);
+    } else if (getCookie("mode") == "CAPTURE") {
+      $('.tolerance_form').css({display: "block"});
+      // checkCapturedImage();
+    }
+  }
+
+  showTolerance();
+
   let intervalId;
   // function to run on press and hold of a button
   $('.car-buttons, #right, .camera-buttons, .reset-camera').on('mousedown touchstart', function () {
-    let direction = $(this).data("direction");
-    intervalId = setInterval(function() {
-      // Do something on each iteration of the loop
-      // let direction = this;
-      console.log(direction);
-      $.ajax({
-        type: 'POST',
-        url: 'updatedb.php',
-        data: { data: direction },
-        success: function(response) {
-          // code to handle the response from the server
-        }
-      });
-    }, 250);
+    if (getCookie("mode") == "STREAM") {
+      let direction = $(this).data("direction");
+      intervalId = setInterval(function() {
+        // Do something on each iteration of the loop
+        // let direction = this;
+        console.log(direction);
+        $.ajax({
+          type: 'POST',
+          url: 'update_db.php',
+          data: { data: direction },
+          success: function(response) {
+            // code to handle the response from the server
+          }
+        });
+      }, 250);
+    }
   });
 
   // function to run on press and hold of a button
@@ -80,8 +131,14 @@ $(document).ready(function() {
     clearInterval(intervalId);
   });
 
+
   // function to check if a cookie exists
   function checkCookie(cookieName) {
+    if (getCookie("mode") == "STREAM") {
+      $('.tolerance_form').css({display: "none"});
+    } else if (getCookie("mode") == "CAPTURE") {
+      $('.tolerance_form').css({display: "block"});
+    }
     var name = cookieName + "=";
     var decodedCookie = decodeURIComponent(document.cookie);
     var ca = decodedCookie.split(';');
@@ -95,6 +152,17 @@ $(document).ready(function() {
       }
     }
     return false;
+  }
+
+  // function to setCookie
+  function setCookie(name, value, days) {
+    var expires = "";
+    if (days) {
+      var date = new Date();
+      date.setTime(date.getTime() + (days * 24 * 60 * 60 * 1000));
+      expires = "; expires=" + date.toUTCString();
+    }
+    document.cookie = name + "=" + (value || "") + expires + "; path=/";
   }
 
   // function to destroy Cookie
@@ -120,20 +188,39 @@ $(document).ready(function() {
   }
 
   // check if a cookie for the ngrok image has been created 
-  if (checkCookie("ngrokAddress")) {
-    console.log("Cookie exists");
-    // if it has change the img link
-    $("#stream").attr("src", getCookie("ngrokAddress")+"/video");
-  } else {
-    console.log("Cookie does not exist");
+  function streamLinkSaved() {
+    if (checkCookie("ngrokAddress")) {
+      console.log("Cookie exists");
+      // if it has change the img link
+      $("#stream").attr("src", getCookie("ngrokAddress")+"/video");
+    } else {
+      console.log("Cookie does not exist");
+    }
   }
+  streamLinkSaved(); // check for stream link
+  defaultImag(); // if no link, swicth to default image
   
-  // if the img src in the stream isnt respomding, switch back to default image
-  $('#stream').on('error', function() {
-    // image could not be loaded
-    deleteCookie("ngrokAddress");
-    $("#stream").attr("src", "./IMAGE/default-image.png");
-  });
+  function defaultImag(force) {
+    // if the img src in the stream isnt respomding, switch back to default image
+    $('#stream').on('error', function() {
+      // image could not be loaded
+      deleteCookie("ngrokAddress");
+      $("#stream").attr("src", "./IMAGE/default-image.png");
+    });
+    if (force == true) {
+      $("#stream").attr("src", "./IMAGE/default-image.png");
+    }
+  }
+
+  
+  // switch images between modes
+  function switchImages() {
+    if (getCookie("mode") == "STREAM") {
+      streamLinkSaved();
+    } else if (getCookie("mode") == "CAPTURE") {
+      defaultImag(true); // switch to default image
+    }
+  }
 
   // function to handle login
   $('.login_submit').click(function() {
@@ -185,6 +272,37 @@ $(document).ready(function() {
       type: 'GET',
       url: 'update_flash.php',
       data: { flash: flashState },
+      success: function(data) {
+        // console.log(data);
+      }
+    });
+
+  });
+
+  let mode;
+  // function to make get request to update mode in database
+  $('#mode').change(function() {
+    mode = $('#mode').val();
+    $.ajax({
+      type: 'GET',
+      url: 'update_mode.php',
+      data: { mode: mode },
+      success: function(data) {
+        setCookie('mode', mode, 1);
+        showTolerance();
+      }
+    });
+
+  });
+
+  let tolerance;
+  // function to make get request to update tolerance in database
+  $('#tolerance').change(function() {
+    tolerance = $('#tolerance').val();
+    $.ajax({
+      type: 'GET',
+      url: 'update_tolerance.php',
+      data: { tolerance: tolerance },
       success: function(data) {
         // console.log(data);
       }

@@ -7,7 +7,7 @@
         session_start();
         $_SESSION['ngrok_address'] = $ngrokAddress;
         $expiration = time() + 7200; // expiration date is two hours from now
-        setcookie("ngrokAddress", $ngrokAddress);
+        setcookie("ngrokAddress", $ngrokAddress, $expiration);
         header("location: index.php");
         
     } else {

@@ -9,6 +9,7 @@
     <link rel="stylesheet" href="style.css">
     <link rel="shortcut icon" href="clutch.png" type="image/x-icon">
     <script src="./jquery-3.4.1.min.js"></script>
+    <!-- <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script> -->
     <script src="./main.js"></script>
 </head>
 <body>
@@ -73,46 +74,58 @@
                 <img alt="robocar video stream" id="stream" src="./IMAGE/default-image.png">
                 <!-- <img alt="robocar video stream" id="stream" src="ac8d-197-210-226-59.eu.ngrok.io/video"> -->
                 <div class="camera_control">
-                    <form action="updateDb.php" method="POST" class="camera_form">
+                    <form class="camera_form">
                         <button data-direction="cam_left" id="camera-left" type="button" class="camera-buttons">
                             <span class="left_arrow"></span>
                         </button>
                     </form>
-                    <form action="updateDb.php" method="POST"  class="camera_form">
+                    <form  class="camera_form">
                         <button data-direction="cam_right" id="camera-right" type="button" class="camera-buttons">
                             <span class="right_arrow"></span>
                         </button>
                     </form>
                 </div>
             </div>
-            <div class="car_control">
+            <div class="car_control">              
+                <form class="mode_form">
+                    <label for="mode">Mode: </label>
+                    <select name="mode" id="mode">
+                        <!-- content would be loaded with javascript -->
+                    </select>
+                </form>
+
+                <form class="tolerance_form">
+                    <label for="tolerance">Tolerance: </label>
+                    <select name="tolerance" id="tolerance">
+                        <!-- content would be loaded with javascript -->
+                    </select>
+                </form>
                 <div class="controller_center">
-        
-                    <form action="updateDb.php" method="POST" class="car_unassigned">
+                    <form class="car_unassigned">
                         <button data-direction="reset" class="reset-camera" type="button">
                             C
                         </button>
                     </form>
         
-                    <form action="updateDb.php" method="POST" class="car_forward">
+                    <form class="car_forward">
                         <button data-direction="car_forward" id="forward" type="button" class="car-buttons">
                             <span class="up-arrow"></span>
                         </button>
                     </form>
                     
-                    <form action="updateDb.php" method="POST" class="car_backward">
+                    <form class="car_backward">
                         <button data-direction="car_backward" id="backward" type="button" class="car-buttons">
                             <span class="down-arrow"></span>
                         </button>
                     </form>
                     
-                    <form action="updateDb.php" method="POST" class="car_right">
+                    <form class="car_right">
                         <button data-direction="car_right" id="right" type="button" class="car-buttons">
                             <span class="right-arrow"></span>
                         </button>
                     </form>
                     
-                    <form action="updateDb.php" method="POST" class="car_left">
+                    <form class="car_left">
                         <button data-direction="car_left" id="left" type="button" class="car-buttons">
                             <span class="left-arrow"></span>
                         </button>
@@ -121,6 +134,9 @@
                 </div>
             </div>
             <div class="check_new_login" hidden>
+            </div>
+            <div class="captured_image_notice">
+                <!-- content would be loaded with javascript -->
             </div>
             <?php
         } else {
