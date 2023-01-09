@@ -20,15 +20,15 @@ int motion; // variable to store motion detected state and send it to server
 String payload; // data from server
 
 void setup() {
-  Serial.begin(115200);
-  WiFi.begin(ssid, password);
+  Serial.begin(115200); // begin serial communication for debugging
+  WiFi.begin(ssid, password); // connect to WiFi network
   while (WiFi.status() != WL_CONNECTED) {
     delay(500);
     Serial.println("Connecting to WiFi...");
   }
   Serial.println("Connected to the WiFi network");
 
-  Wire.begin(); // join the I2C bus as a slave
+  Wire.begin(); // begin wire communication via I2C
 
   pinMode(D8, INPUT); // motion sensor
 }

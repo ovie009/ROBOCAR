@@ -61,8 +61,8 @@ String tolerance; // the tolerance value to detect motion could
 int motionCount = 0;
 
 void setup() {
-  Serial.begin(115200);
-  // connect ti WiFi
+  Serial.begin(115200); // begin serial communication, for debugging
+  // connect to WiFi
   WiFi.begin(ssid, password);
   Serial.println("");
   while (WiFi.status() != WL_CONNECTED) {
@@ -73,8 +73,8 @@ void setup() {
   IP = WiFi.localIP().toString();
   Serial.println("IP address: " + IP);
   index_html.replace("server_ip", IP);
-  server.begin();
-  configCamera();
+  server.begin(); // begin streaming server on the ESP IP Address
+  configCamera(); // configure the camera settings
 
 }
 
