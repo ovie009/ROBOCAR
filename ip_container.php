@@ -20,31 +20,44 @@
             # code...
             $ipAddress = $row['address'];
             $dateTime = $row['datetime'];
-            $dateTime = strtotime($dateTime);
+            $dateTime = strtotime($dateTime) + 3600;
             $currentDateTime = date('Y-m-d G:i:s');
             $unixSeconds = date('U');
             $timeElapsed = $unixSeconds - $dateTime;
 
-            // echo  $ipAddress;
-            if ($ipAddress != "N/A") {
-                if ($timeElapsed > 600) {
-                    ?> <label for="ip_address">Camserver Ip address:</label>
-                    <input type="text" name="ip_address" id="ip_address" value="<?php echo $ipAddress  ?>" placeholder="ip address of camserver" readonly>
-                    <button class="esp_now_submit" type="submit">submit</button> 
-                    <span  style="font-size: small;">Ip address has been saved in the server for over 10 mins</span><?php
-                    # code...
-                } else {
-                    # code...
-                    ?> <label for="ip_address">Camserver Ip address:</label>
-                    <input type="text" name="ip_address" id="ip_address" value="<?php echo $ipAddress  ?>" placeholder="ip address of camserver" readonly>
-                    <button class="esp_now_submit" type="submit">submit</button> 
-                    <span  style="font-size: small;">Recent Ip Address detected</span><?php
-                }
-            } else {
-                ?> <label for="ip_address">Camserver Ip address:</label>
-                <input type="text" name="ip_address" id="ip_address" value="<?php echo $ipAddress; ?>" placeholder="ip address of camserver" readonly>
-                <button class="esp_now_submit" type="submit">submit</button> <?php
-            }
+            ?> <label for="ip_address">Camserver Ip address:</label>
+            <input type="text" name="ip_address" id="ip_address" value="<?php echo $ipAddress  ?>" placeholder="ip address of camserver" readonly>
+            <button class="esp_now_submit" type="submit">submit</button> 
+            <span  style="font-size: small;">Ip address last updated <?php echo formatTime($timeElapsed); ?></span><?php
         }
+    }
+
+    function formatTime($time) {
+        if($time < 60) { // if time is less than 1 minute
+            return $time." second".grammarCheck($time); 
+        
+        } else if($time < 3600) { // if time is less than 1 hour
+            $timeInMinutes = floor($time / 60);
+            return $timeInMinutes." minute".grammarCheck($timeInMinutes);
+        
+        } else if($time < 86400) { // if time is less than 1 day
+            $timeInHours = floor($time / 3600);
+            return $timeInHours." hour".grammarCheck($timeInHours);
+
+        } else if($time < 2592000) { // if time is less than 1 day
+            $timeInDays = floor($time / 86400);
+            return $timeInDays." day".grammarCheck($timeInDays);
+        } else {
+            return 'more than a month ago';
+        }
+    }
+
+    function grammarCheck($number) {
+        if ($number == 1) {
+            return ' ago';
+        } else {
+            return 's ago';
+        }
+        
     }
 ?>

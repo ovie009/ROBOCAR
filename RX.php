@@ -14,9 +14,23 @@
             $data = $row['data'];
             $dateTime = $row['datetime'];
             $mode = $row['mode'];
-            $dateTime = strtotime($dateTime);
+            $dateTime = strtotime($dateTime) + 3600;
             $unixSeconds = date('U');
+            $time = time();
+            
             $timeElapsed = $unixSeconds - $dateTime;
+            // echo  'dateTime: '.$dateTime;
+            // echo '<br>';
+            // echo 'unixSeconds: '.$unixSeconds;
+            // echo '<br>';
+            // echo  'time: '.$time;
+            // echo '<br>';
+            // echo 'timeElasped: '.$timeElapsed;
+            // echo '<br>';
+            // echo 'mode: '.$mode;
+            // echo '<br>';
+            // echo 'data: '.$data;
+            // echo '<br>';
             // amount of seconds to elapse to disregard input 
             if ($timeElapsed > 5) {
                 echo 'N/A#'.$mode;

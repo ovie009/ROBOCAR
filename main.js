@@ -107,8 +107,8 @@ $(document).ready(function() {
 
   let intervalId;
   // function to run on press and hold of a button
-  $('.car-buttons, #right, .camera-buttons, .reset-camera').on('mousedown touchstart', function () {
-    if (getCookie("mode") == "STREAM") {
+  $('.car-buttons, .camera-buttons, .reset-camera').on('mousedown touchstart', function () {
+    if (getCookie("mode") === "STREAM") {
       let direction = $(this).data("direction");
       intervalId = setInterval(function() {
         // Do something on each iteration of the loop

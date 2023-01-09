@@ -31,7 +31,7 @@ CREATE TABLE `ip` (
   `id` int(99) NOT NULL,
   `address` varchar(20) DEFAULT NULL,
   `datetime` datetime NOT NULL DEFAULT current_timestamp()
-) DEFAULT CHARSET=utf8mb4;
+);
 
 --
 -- Dumping data for table `ip`
@@ -51,7 +51,7 @@ CREATE TABLE `login` (
   `user` varchar(20) NOT NULL DEFAULT 'ROBOCAR_ADMIN',
   `password` varchar(50) NOT NULL DEFAULT 'Robocar&@!%(*^#%$',
   `datetime` datetime NOT NULL DEFAULT current_timestamp()
-) DEFAULT CHARSET=utf8mb4;
+);
 
 --
 -- Dumping data for table `login`
@@ -74,7 +74,7 @@ CREATE TABLE `robocar_datastream` (
   `flash` int(1) NOT NULL DEFAULT 0,
   `mode` text NOT NULL DEFAULT 'STREAM',
   `tolerance` text NOT NULL DEFAULT 'AVERAGE'
-) DEFAULT CHARSET=utf8mb4;
+);
 
 --
 -- Dumping data for table `robocar_datastream`

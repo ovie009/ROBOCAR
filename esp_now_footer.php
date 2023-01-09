@@ -4,6 +4,8 @@
     $mode = "STREAM";
     $sql = "UPDATE `robocar_datastream` SET `mode` = '".$mode."' WHERE `robocar_datastream`.`id` = 1;";
     mysqli_query($connect, $sql);
+    $expiration = time() + 7200; // expiration date is two hours from now
+    setcookie("mode", $mode, $expiration);
 
     $id = 1;
     // sql query
@@ -25,7 +27,7 @@
             # code...
             $ipAddress = $row['address'];
             $dateTime = $row['datetime'];
-            $dateTime = strtotime($dateTime);
+            $dateTime = strtotime($dateTime) + 3600;
             $currentDateTime = date('Y-m-d G:i:s');
             $unixSeconds = date('U');
             $timeElapsed = $unixSeconds - $dateTime;
