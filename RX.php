@@ -26,7 +26,7 @@
             }
         }
         
-        $sql = "UPDATE `robocar_datastream` SET `motion_detected` = '".$motion."' WHERE `robocar_datastream`.`id` = 1;";
+        $sql = "UPDATE `robocar_datastream` SET `motion_detected` = '".$motion."', `esp8266_timestamp` = CURRENT_TIMESTAMP WHERE `robocar_datastream`.`id` = 1;";
         mysqli_query($connect, $sql);
     } else {
         # code...

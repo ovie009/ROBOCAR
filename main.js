@@ -46,6 +46,17 @@ $(document).ready(function() {
       $('#mode').html(response);
     }
   });
+  
+  setInterval(() => {
+    $.ajax({
+      type: 'GET',
+      data: { id: 1 },
+      url: 'esp_connected.php',
+      success: function(response) {
+        $('.connected_notice').html(response);
+      }
+    });
+  }, 1000);
 
   let capturedInterval;
   // get if image was every 10 seconds
@@ -94,6 +105,7 @@ $(document).ready(function() {
 
   // show tolerance select fucntion
   function showTolerance() {
+    console.log(getCookie("mode"));
     if (getCookie("mode") == "STREAM") {
       $('.tolerance_form').css({display: "none"});
       // clearInterval(capturedInterval);
@@ -131,14 +143,8 @@ $(document).ready(function() {
     clearInterval(intervalId);
   });
 
-
   // function to check if a cookie exists
   function checkCookie(cookieName) {
-    if (getCookie("mode") == "STREAM") {
-      $('.tolerance_form').css({display: "none"});
-    } else if (getCookie("mode") == "CAPTURE") {
-      $('.tolerance_form').css({display: "block"});
-    }
     var name = cookieName + "=";
     var decodedCookie = decodeURIComponent(document.cookie);
     var ca = decodedCookie.split(';');
@@ -283,14 +289,16 @@ $(document).ready(function() {
   // function to make get request to update mode in database
   $('#mode').change(function() {
     mode = $('#mode').val();
+    console.log("selected mode: "+mode)
     $.ajax({
       type: 'GET',
       url: 'update_mode.php',
       data: { mode: mode },
       success: function(data) {
-        setCookie('mode', mode, 1);
-        showTolerance();
-        switchImages();
+        deleteCookie('mode'); // delete eoccureence of cookie
+        setCookie('mode', mode, 1); // setcookie as new value
+        showTolerance(); // show or hide tolerance
+        switchImages(); // switch images home page
       }
     });
 

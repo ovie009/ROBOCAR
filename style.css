@@ -541,6 +541,35 @@ button{
     background-color: #4285f4;
 }
 
+.connected_notice{
+    position: absolute;
+    top: 70px;
+    left: 20px;
+    color: white;
+    /* box-shadow: 0 0 500px 500px red; */
+    z-index: 101;
+    display: flex;
+    gap: 10px;
+}
+
+.connected_notice span{
+    padding: 7.5px;
+    border-radius: 5px;
+    font-size: small;
+}
+
+.esp_connected{
+    color: hsl(146, 50%, 20%);
+    /* border: 1px solid hsl(146, 50%, 26%); */
+    background-color: hsl(146, 50%, 76%);
+}
+
+.esp_disconnected{
+    color: hsl(9, 100%, 50%);
+    /* border: 1px solid hsl(9, 100%, 54%); */
+    background-color: hsl(9, 100%, 90%);
+}
+
 .esp_now_modal{
     width: 100vw;
     height: 100vh;

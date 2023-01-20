@@ -16,6 +16,9 @@
     <?php
         
         if (isset($_SESSION['user'])) {
+            ?><div class="connected_notice">
+                <!-- content would be loaded dynamically with javascript -->
+            </div><?php
             if (!isset($_SESSION['ngrok_address'])) {
             # code...?>
                 <div class="esp_now_modal">
