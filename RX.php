@@ -4,26 +4,25 @@
         $id = $_GET['id'];
         $motion = $_GET['motion'];
         // sql query
-        $sql = "SELECT `data`, `datetime`, `mode` FROM `robocar_datastream` WHERE `id` = 1;";
+        $sql = "SELECT `data`, `datetime`, `mode`, `servo_angle` FROM `robocar_datastream` WHERE `id` = 1;";
     
         // run query
         $result = mysqli_query($connect, $sql);
-    
-        while ($row = mysqli_fetch_assoc($result)) {
-            # code...
-            $data = $row['data'];
-            $dateTime = $row['datetime'];
-            $mode = $row['mode'];
-            $dateTime = strtotime($dateTime) + 3600;
-            $unixSeconds = date('U');
-            $time = time();
-            
-            $timeElapsed = $unixSeconds - $dateTime;
-            if ($timeElapsed > 5) {
-                echo 'N/A#'.$mode;
-            } else {
-                echo $data.'#'.$mode;
-            }
+        $row = mysqli_fetch_assoc($result);
+        $servoAngle = $row['servo_angle'];
+        $data = $row['data'];
+        $dateTime = $row['datetime'];
+        $mode = $row['mode'];
+        $dateTime = strtotime($dateTime) + 3600;
+        // $dateTime = strtotime($dateTime);
+        $unixSeconds = date('U');
+        $time = time();
+        
+        $timeElapsed = $unixSeconds - $dateTime;
+        if ($timeElapsed > 2.5) {
+            echo 'N/A#'.$mode.'@'.$servoAngle;
+        } else {
+            echo $data.'#'.$mode.'@'.$servoAngle;
         }
         
         $sql = "UPDATE `robocar_datastream` SET `motion_detected` = '".$motion."', `esp8266_timestamp` = CURRENT_TIMESTAMP WHERE `robocar_datastream`.`id` = 1;";

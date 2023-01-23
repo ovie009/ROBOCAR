@@ -33,7 +33,9 @@
     }
 
     function formatTime($time) {
-        if($time < 60) { // if time is less than 1 minute
+        if ($time == 0) { // if time is equal to zero
+            return 'just now';
+        } else if($time < 60) { // if time is less than 1 minute
             return $time." second".grammarCheck($time); 
         
         } else if($time < 3600) { // if time is less than 1 hour

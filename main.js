@@ -127,7 +127,7 @@ $(document).ready(function() {
         // let direction = this;
         console.log(direction);
         $.ajax({
-          type: 'POST',
+          type: 'GET',
           url: 'update_db.php',
           data: { data: direction },
           success: function(response) {

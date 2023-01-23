@@ -8,7 +8,8 @@ const int SLAVE_ADDRESS = 8; // the slave address
 const char* ssid = "Robotcar";
 const char* password = "Robotcar";
 
-String host = "http://robotcar.000webhostapp.com";
+// String host = "http://robotcar.000webhostapp.com";
+String host = "http://192.168.235.138/robocar";
 const int httpPort = 80;
 
 String dataFromServer; //data to be sent to ARDUINO UNO via I2C
@@ -29,14 +30,13 @@ void setup() {
   Serial.println("Connected to the WiFi network");
 
   Wire.begin(); // begin wire communication via I2C
-
   pinMode(D8, INPUT); // motion sensor
 }
 
 void loop() {
   motion = readMotion(); // get the motion detected state from Arduino
   makeGetRequest(); // this function updates the values of dataFromServer and mode
-  delay(1000);
+  delay(500);
 }
 
 int readMotion(){
@@ -51,9 +51,8 @@ void makeGetRequest() {
   HTTPClient http;
   Serial.println("inside get request");
   String motionString = String(motion);
-  String page = "rx.php?id=1&motion=0";
+  String page = "rx.php?id=1&motion="+motionString;
   String url = host + "/" + page;
-  // String url = "http://robotcar.000webhostapp.com/rx.php?id='1'&motion='0'";
   if (http.begin(client, url)) {
     Serial.print("GET...");
     int httpCode =  http.GET();
@@ -65,33 +64,14 @@ void makeGetRequest() {
       if (httpCode == HTTP_CODE_OK || httpCode == HTTP_CODE_MOVED_PERMANENTLY) {
         payload = http.getString();
         Serial.print("payload: ");
-        // find the index of th '#' character      
-        int delimiterIndex = payload.indexOf('#');
-
-
-        dataFromServer = payload.substring(0, delimiterIndex);
-        mode = payload.substring(delimiterIndex + 1);    
-
         Serial.println(payload);
       } 
     } 
     http.end();
-    sendData(payload);      
+    sendData(payload); // send payload to arduino uno  
   } else {
     Serial.printf("[HTTP] Unable to connect");    
   }
-}
-
-// function to receive message from arduino uno, the motion data
-void detectMotion() {
-  int data;
-  // if (serial.available() > 0) {  
-  if (Serial.available() > 0) {  
-    Serial.print("slave detected");
-    // data = serial.read();
-    data = Serial.read();
-    motion = data;
-  } 
 }
 
 // called when data is requested by the master

@@ -6,6 +6,7 @@
     while ($row = mysqli_fetch_assoc($result)) {
         $dateTime = $row['datetime'];
         $dateTime = strtotime($dateTime) + 3600;
+        // $dateTime = strtotime($dateTime);
         $currentDateTime = date('Y-m-d G:i:s');
         $unixSeconds = date('U');
         $timeElapsed = $unixSeconds - $dateTime;
@@ -24,7 +25,8 @@
     $result = mysqli_query($connect, $sql);
     while ($row = mysqli_fetch_assoc($result)) {
         $timeStamp = $row['esp8266_timestamp'];
-        $timeStamp = strtotime($timeStamp) + 3600;
+        //$timeStamp = strtotime($timeStamp) + 3600;
+        $timeStamp = strtotime($timeStamp);
         $currentDateTime = date('Y-m-d G:i:s');
         $unixSeconds = date('U');
         $timeElapsed = $unixSeconds - $timeStamp;

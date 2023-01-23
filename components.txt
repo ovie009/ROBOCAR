@@ -1,0 +1,9 @@
+Arduino uno
+Esp8266 wifi module
+Esp 32 Cam
+Mecanum wheels x4 + metal chasis
+Gear motors (4)
+Motor driver
+Pir Sensor 
+Jumper wire  
+3.7v Batteries battery pack
