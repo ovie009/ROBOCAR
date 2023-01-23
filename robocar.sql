@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jan 05, 2023 at 01:38 PM
+-- Generation Time: Jan 23, 2023 at 01:06 AM
 -- Server version: 10.4.25-MariaDB
 -- PHP Version: 8.1.10
 
@@ -58,7 +58,7 @@ CREATE TABLE `login` (
 --
 
 INSERT INTO `login` (`id`, `user`, `password`, `datetime`) VALUES
-(1, 'ROBOCAR_ADMIN', 'Robocar&@!%(*^#%$', '2023-01-05 13:08:04');
+(1, 'ROBOCAR_ADMIN', 'Robocar&@!%(*^#%$', '2023-01-23 00:51:19');
 
 -- --------------------------------------------------------
 
@@ -72,16 +72,18 @@ CREATE TABLE `robocar_datastream` (
   `datetime` datetime NOT NULL DEFAULT current_timestamp(),
   `motion_detected` int(1) NOT NULL DEFAULT 0,
   `flash` int(1) NOT NULL DEFAULT 0,
-  `mode` text NOT NULL DEFAULT 'STREAM',
-  `tolerance` text NOT NULL DEFAULT 'AVERAGE'
+  `mode` varchar(20) NOT NULL DEFAULT '''STREAM''',
+  `tolerance` varchar(20) NOT NULL DEFAULT '''AVERAGE''',
+  `esp8266_timestamp` datetime NOT NULL DEFAULT current_timestamp(),
+  `servo_angle` int(3) NOT NULL DEFAULT 90
 );
 
 --
 -- Dumping data for table `robocar_datastream`
 --
 
-INSERT INTO `robocar_datastream` (`id`, `data`, `datetime`, `motion_detected`, `flash`, `mode`, `tolerance`) VALUES
-(1, 'reset', '2023-01-05 11:17:20', 0, 0, 'STREAM', 'LOW');
+INSERT INTO `robocar_datastream` (`id`, `data`, `datetime`, `motion_detected`, `flash`, `mode`, `tolerance`, `esp8266_timestamp`, `servo_angle`) VALUES
+(1, 'reset', '2023-01-23 00:59:29', 1, 0, 'STREAM', 'AVERAGE', '2023-01-23 01:06:38', 155);
 
 --
 -- Indexes for dumped tables
