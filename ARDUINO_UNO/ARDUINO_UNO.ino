@@ -24,8 +24,8 @@ int in2 = 5; // In2 of L298N connected to pin 5 of Arduino
 // right hand side motors
 // forward right (FR) and backward right (BR) red wire connected to OUT3 of L298N
 // forward right (FR) and backward right (BR) black wire connected to OUT4 of L298N
-int in3 = 10; // In3 of L298N connected to pin 10 of Arduino
-int in4 = 11; // In4 of L298N connected to pin 11 of Arduino
+int in3 = 6; // In3 of L298N connected to pin 6 of Arduino
+int in4 = 7; // In4 of L298N connected to pin 7 of Arduino
 
 int FR_RED = in3;
 int FR_BLACK = in4;
@@ -37,7 +37,7 @@ String dataFromServer;
 String dataFromESP;
 
 void setup() {
-  Serial.begin(115200); // start serial for output
+  Serial.begin(9600); // start serial for output
 
   pinMode(modeLed, OUTPUT); // declare pinmode for mode led indicator
 
@@ -187,16 +187,31 @@ void moveCam() {
 // function to send text message after image capture
 void sendTextMessage(String phoneNumber, String message) {
    // Set the phone number for the message
-  mySerial.println("AT+CMGS=\"" + phoneNumber + "\"");
-  delay(1000);
+  mySerial.println("AT"); //Once the handshake test is successful, it will back to OK
+  updateSerial();
 
-  // Send the message
-  mySerial.println(message);
-  delay(1000);
-
-  // Send the End of Transmission character to send the message
+  mySerial.println("AT+CMGF=1"); // Configuring TEXT mode
+  updateSerial();
+  mySerial.println("AT+CMGS=\"" + phoneNumber + "\"");//change ZZ with country code and xxxxxxxxxxx with phone number to sms
+  updateSerial();
+  mySerial.print(message); //text content
+  updateSerial();
   mySerial.write(26);
+
   delay(3000);
 
   dataFromServer = "N/A";
+}
+
+void updateSerial()
+{
+  delay(500);
+  while (Serial.available()) 
+  {
+    mySerial.write(Serial.read());//Forward what Serial received to Software Serial Port
+  }
+  while(mySerial.available()) 
+  {
+    Serial.write(mySerial.read());//Forward what Software Serial received to Serial Port
+  }
 }

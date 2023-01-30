@@ -22,10 +22,14 @@
         </a>
     </nav>
     <div class="videostream">
-        <img alt="robocar video stream" id="stream" src="./IMAGE/image.jpg">
+        <img alt="robocar video stream" id="captured" src="#">
+        <!-- src would be added using javascript -->
     </div>
     <div class="car_control">
         <p>Image Captured from <strong>ESP32 CAM</strong> </p>
     </div>
+    <script>
+        $("#captured").attr("src", "./IMAGE/image.jpg?"+Math.random());
+    </script>
 </body>
 </html>

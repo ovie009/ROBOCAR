@@ -586,7 +586,7 @@ button{
 .esp_now_container{
     width: 90%;
     max-width: 500px;
-    min-height: 275px;
+    min-height: fit-content;
     box-shadow: 0px 0px 10px lightgray;
     background-color: hsl(0, 0%, 13%);
     border-radius: 5px;
@@ -658,6 +658,23 @@ button{
 .old_ip_notice{
     font-size: small;
     font-style: italic;
+}
+
+.stream_option_container{
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    gap: 5px;
+}
+
+.stream_option_container *{
+    width: fit-content;
+    padding: 5px;
+    margin: 0;
+}
+
+.stream_option_container select{
+    border: 1px solid darkgray;
 }
 
 #copy-button{

@@ -19,9 +19,9 @@ void setup()
 
   mySerial.println("AT+CMGF=1"); // Configuring TEXT mode
   updateSerial();
-  mySerial.println("AT+CMGS=\"+2348165266847\"");//change ZZ with country code and xxxxxxxxxxx with phone number to sms
+  mySerial.println("AT+CMGS=\"+2348116320575\"");//change ZZ with country code and xxxxxxxxxxx with phone number to sms
   updateSerial();
-  mySerial.print("Motion Detected in ROBOBAR capture mode, check image here robotcar.000webhostapp.com/capture.php"); //text content
+  mySerial.print("Motion Detected in ROBOBAR capture mode, check image here http://robotcar.000webhostapp.com/capture.php"); //text content
   updateSerial();
   mySerial.write(26);
 }

@@ -109,7 +109,9 @@ void loop() {
   {
     if (motionDetected == 1)
     {
-      motionCount += 1; 
+      motionCount += 1;
+      Serial.print("motion count: ");
+      Serial.println(motionCount); 
       motionDetected = 0;
       if (motionCount == 5 && tolerance == "LOW" || motionCount == 10 && tolerance == "AVERAGE" || motionCount == 15 && tolerance == "HIGH") {
         String response;
@@ -257,7 +259,7 @@ String captureImage() {
   // Create an HTTP client and set the destination URL
   HTTPClient http;
   http.begin("http://robotcar.000webhostapp.com/image.php");
-  // http.begin("http://192.168.109.138/robocar/image.php");
+  // http.begin("http://192.168.235.138/robocar/image.php");
 
   // Set the content type to image/jpeg
   http.addHeader("Content-Type", "image/jpeg");
@@ -294,7 +296,7 @@ String requestSettings() {
 
   // Set the URL for the request
   String url = "http://robotcar.000webhostapp.com/settings.php?IP="+IP;
-  // String url = "http://192.168.109.138/robocar/settings.php?IP="+IP;
+  // String url = "http://192.168.235.138/robocar/settings.php?IP="+IP;
 
   // Send the GET request
   http.begin(url);

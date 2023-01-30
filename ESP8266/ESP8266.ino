@@ -8,8 +8,8 @@ const int SLAVE_ADDRESS = 8; // the slave address
 const char* ssid = "Robotcar";
 const char* password = "Robotcar";
 
-// String host = "http://robotcar.000webhostapp.com";
-String host = "http://192.168.235.138/robocar";
+String host = "http://robotcar.000webhostapp.com";
+// String host = "http://192.168.235.138/robocar";
 const int httpPort = 80;
 
 String dataFromServer; //data to be sent to ARDUINO UNO via I2C

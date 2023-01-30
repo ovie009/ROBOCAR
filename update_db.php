@@ -25,40 +25,11 @@
             // check if servo angle has reached its minimum value
             if ($servoAngle > 0) { $servoAngle -= 5; }
             else { $servoAngle = 0; }
-        } else if ($data == "rese") {
+        } else if ($data == "reset") {
             # code...
             $servoAngle = 90;
         }
         
-        echo 'new servo angle: ';
-        echo $servoAngle;
-        echo '<br>';
-
-        // switch ($data) {
-        //     case 'cam_left':
-        //         # code...
-        //         // check if servo angle has reached its maximum value
-        //         if ($servoAngle < 180) { $servoAngle += 5; }
-        //         else { $servoAngle = 180; }
-        //         break;
-            
-        //     case 'cam_right':
-        //         # code...
-        //         // check if servo angle has reached its minimum value
-        //         if ($servoAngle > 0) { $servoAngle -= 5; }
-        //         else { $servoAngle = 0; }
-        //         break;
-            
-        //     case 'reset':
-        //         # code...
-        //         $servoAngle = 90;
-        //         break;
-            
-        //     default:
-        //         # code...
-        //         break;
-        // }
-            
         $sql = "UPDATE `robocar_datastream` SET `data` = '".$data."', `servo_angle` = ".$servoAngle.", `datetime` = CURRENT_TIMESTAMP WHERE `robocar_datastream`.`id` = 1;";
         mysqli_query($connect, $sql);
 
@@ -66,10 +37,6 @@
         echo $data;
         echo '<br>';
         echo 'successful';
-
-        
-
-
         
     } else{
         # code...

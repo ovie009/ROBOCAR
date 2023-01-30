@@ -27,7 +27,14 @@
                             <div class="ip_container">
                                 <!-- content would be loaded dynamically with javascript -->
                             </div>
-                            <label for="ngrok_address">Ngrok address:</label>
+                            <div class="stream_option_container">
+                                <label for="stream_mode">Stream:</label>
+                                <select name="stream_mode" id="stream_mode" onchange="refreshFooter()">
+                                    <option value="internet">over the internet</option>
+                                    <option value="local">on local network</option>
+                                </select>
+                            </div>
+                            <label class="ngrok_label" for="ngrok_address">Ngrok address:</label>
                             <input type="text" name="ngrok_address" id="ngrok_address" placeholder="ngrok port forward address">
                             <div class="esp_now_footer">
                                 <!-- content would be loaded dynamically with javascript -->
@@ -37,7 +44,7 @@
                 </div>
                 <script>
                     function refreshInput() {
-                        console.log("refreshing");
+                        // console.log("refreshing");
                         $.ajax({
                             url: 'ip_container.php',
                             success: function(data) {
@@ -47,18 +54,23 @@
                     }
 
                     function refreshFooter() {
-                        console.log("refreshing");
+                        // console.log("refreshing");
+                        let streamMode = $("#stream_mode").val();
+                        console.log(streamMode);
                         $.ajax({
+                            type: 'GET',
+                            data: { stream_mode: streamMode},
                             url: 'esp_now_footer.php',
                             success: function(data) {
                                 $('.esp_now_footer').html(data);
                             }
                         });
                     }
+
                     refreshInput();
                     refreshFooter();
-                    setInterval(refreshInput, 10000);
-                    setInterval(refreshFooter, 10000);
+                    setInterval(refreshInput, 5000);
+                    setInterval(refreshFooter, 5000);
                 </script>
 
                 <?php 
