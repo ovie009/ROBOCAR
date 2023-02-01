@@ -31,12 +31,6 @@
             while ($row = mysqli_fetch_assoc($result)) {
                 # code...
                 $ipAddress = $row['address'];
-                $dateTime = $row['datetime'];
-                $dateTime = strtotime($dateTime) + 3600;
-                $currentDateTime = date('Y-m-d G:i:s');
-                $unixSeconds = date('U');
-                $timeElapsed = $unixSeconds - $dateTime;
-    
                 // echo  $ipAddress;
                 if ($ipAddress == "N/A") {
                     ?> <em style="font-size: small;" class="esp_failed">ESP NOW CONNECTION FAILED: recommend reseting both esp modules</em> <?php

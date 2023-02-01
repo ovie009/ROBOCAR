@@ -20,7 +20,7 @@
             # code...
             $ipAddress = $row['address'];
             $dateTime = $row['datetime'];
-            $dateTime = strtotime($dateTime) + 3600;
+            $dateTime = strtotime($dateTime);
             $currentDateTime = date('Y-m-d G:i:s');
             $unixSeconds = date('U');
             $timeElapsed = $unixSeconds - $dateTime;

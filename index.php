@@ -29,7 +29,7 @@
                             </div>
                             <div class="stream_option_container">
                                 <label for="stream_mode">Stream:</label>
-                                <select name="stream_mode" id="stream_mode" onchange="refreshFooter()">
+                                <select name="stream_mode" id="stream_mode">
                                     <option value="internet">over the internet</option>
                                     <option value="local">on local network</option>
                                 </select>
@@ -56,7 +56,7 @@
                     function refreshFooter() {
                         // console.log("refreshing");
                         let streamMode = $("#stream_mode").val();
-                        console.log(streamMode);
+                        // console.log(streamMode);
                         $.ajax({
                             type: 'GET',
                             data: { stream_mode: streamMode},
@@ -67,10 +67,13 @@
                         });
                     }
 
+                    $("#stream_mode").change(function(){
+                        refreshFooter();
+                    });
+
                     refreshInput();
                     refreshFooter();
-                    setInterval(refreshInput, 5000);
-                    setInterval(refreshFooter, 5000);
+                    setInterval(refreshInput, 2000);
                 </script>
 
                 <?php 

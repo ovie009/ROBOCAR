@@ -15,7 +15,7 @@
             setcookie("ngrokAddress", $ngrokAddress, $expiration);
         } else {
             # code...
-            setcookie("ngrokAddress", $ipAddress, $expiration);
+            setcookie("ngrokAddress", 'http://'.$ipAddress, $expiration);
         }
         
         header("location: index.php");

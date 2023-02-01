@@ -13,7 +13,7 @@
         $data = $row['data'];
         $dateTime = $row['datetime'];
         $mode = $row['mode'];
-        $dateTime = strtotime($dateTime) + 3600;
+        $dateTime = strtotime($dateTime);
         // $dateTime = strtotime($dateTime);
         $unixSeconds = date('U');
         $time = time();
