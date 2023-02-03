@@ -30,8 +30,8 @@
                 $flash = $row['flash']; // varable to control the flashlight during streaming
                 $motionDetected = $row['motion_detected']; // varaible to store motion detected status
                 $tolerance = $row['tolerance']; // variable to determine the tolerance level of the motion sensor
-                // echo $mode."#".$row."#".$motion_detected;
-                echo $mode."#".$flash."&".$motionDetected.'@'.$tolerance; // send all these variables as a payload
+                $frame = $row['frame']; // variable to determine the tolerance level of the motion sensor
+                echo $mode."#".$flash."&".$motionDetected.'@'.$tolerance.'%'.$frame; // send all these variables as a payload
             }
         }
     } else {

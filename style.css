@@ -660,11 +660,20 @@ button{
     font-style: italic;
 }
 
+.quality_container{
+    position: absolute;
+    bottom: 10px;
+    left: 20px;
+    display: flex;
+    align-items: center;
+}
+
 .stream_option_container{
     display: flex;
     justify-content: flex-start;
     align-items: center;
     gap: 5px;
+    display: none;
 }
 
 .stream_option_container *{

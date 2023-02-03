@@ -3,7 +3,8 @@
     
     $mode = "STREAM";
     $servoAngle = 90;
-    $sql = "UPDATE `robocar_datastream` SET `mode` = '".$mode."', `servo_angle` = ".$servoAngle."  WHERE `robocar_datastream`.`id` = 1;";
+    $frame = "FRAMESIZE_SVGA";
+    $sql = "UPDATE `robocar_datastream` SET `mode` = '".$mode."', `frame` = '".$frame."', `servo_angle` = ".$servoAngle." WHERE `robocar_datastream`.`id` = 1;";
     mysqli_query($connect, $sql);
     $expiration = time() + 7200; // expiration date is two hours from now
     setcookie("mode", $mode, $expiration);

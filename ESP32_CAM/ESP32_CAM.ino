@@ -60,6 +60,13 @@ String tolerance; // the tolerance value to detect motion could
 // possible 3 values LOW = 5, AVERAGE = 10, HIGH = 15,
 int motionCount = 0;
 
+String frame = "FRAMESIZE_SVGA"; // variable to  store frame size from server
+framesize_t frameSize; // variable to set frame size in camera confguration
+
+int requestInterval = 0;
+camera_config_t config;
+
+
 void setup() {
   Serial.begin(115200); // begin serial communication, for debugging
   // connect to WiFi
@@ -76,23 +83,29 @@ void setup() {
   server.begin(); // begin streaming server on the ESP IP Address
   configCamera(); // configure the camera settings
 
+  settings = requestSettings();
+  processSettings(settings);
 }
 
 void loop() {
 
-  // Serial.println(requestSettings());
-
-  settings = requestSettings();
-  processSettings(settings);
-
-  Serial.print("mode: ");
-  Serial.println(mode);
-  Serial.print("flash: ");
-  Serial.println(flash);
-  Serial.print("motion: ");
-  Serial.println(motionDetected);
-  Serial.print("tolerance: ");
-  Serial.println(tolerance);
+  // make request to server every 3 seconds interval
+  if( millis() - requestInterval > 3000 ) {
+    settings = requestSettings();
+    processSettings(settings);
+    setFrameSize();
+    Serial.print("mode: ");
+    Serial.println(mode);
+    Serial.print("flash: ");
+    Serial.println(flash);
+    Serial.print("motion: ");
+    Serial.println(motionDetected);
+    Serial.print("tolerance: ");
+    Serial.println(tolerance);
+    Serial.print("frame: ");
+    Serial.println(frame);
+    requestInterval = millis();
+  }   
 
   if (mode == "STREAM")
   {    
@@ -101,8 +114,7 @@ void loop() {
       if (flash == 1) { turnOnFlash(); } 
       else { turnOffFlash(); }
       liveCam(live_client);
-    }
-    
+    } 
   }
 
   else if (mode == "CAPTURE")
@@ -121,11 +133,11 @@ void loop() {
       }
     }
   }
-  delay(1000);
+
+  delay(1);
 }
 
 void configCamera(){
-  camera_config_t config;
   config.ledc_channel = LEDC_CHANNEL_0;
   config.ledc_timer = LEDC_TIMER_0;
   config.pin_d0 = Y2_GPIO_NUM;
@@ -147,16 +159,8 @@ void configCamera(){
   config.xclk_freq_hz = 20000000;
   config.pixel_format = PIXFORMAT_JPEG;
 
-  // FRAMESIZE_QQVGA: 160x120 pixels
-  // FRAMESIZE_HQVGA: 240x176 pixels
-  // FRAMESIZE_QVGA: 320x240 pixels
-  // FRAMESIZE_CIF: 400x296 pixels
-  // FRAMESIZE_VGA: 640x480 pixels
-  // FRAMESIZE_SVGA: 800x600 pixels
-  // FRAMESIZE_XGA: 1024x768 pixels
-  // FRAMESIZE_SXGA: 1280x1024 pixels
-  // FRAMESIZE_UXGA: 1600x1200 pixels
-  config.frame_size = FRAMESIZE_SVGA;
+  frameSize = FRAMESIZE_SVGA;
+  config.frame_size = frameSize;
   config.jpeg_quality = 10;
   // The config.jpeg_quality field determines the quality of the images captured
   // It can be set to a value between 0 and 63, the higher the  value the lower the quality
@@ -321,10 +325,53 @@ void processSettings(String settingsData) {
   int firstDelimiterIndex = settingsData.indexOf('#');
   int secondDelimiterIndex = settingsData.indexOf('&');
   int thirdDelimiterIndex = settingsData.indexOf('@');
+  int fourthDelimiterIndex = settingsData.indexOf('%');
 
 
   mode = settingsData.substring(0, firstDelimiterIndex);
   flash = settingsData.substring(firstDelimiterIndex + 1, secondDelimiterIndex).toInt();
   motionDetected = settingsData.substring(secondDelimiterIndex + 1, thirdDelimiterIndex).toInt();
-  tolerance = settingsData.substring(thirdDelimiterIndex + 1);
+  tolerance = settingsData.substring(thirdDelimiterIndex + 1, fourthDelimiterIndex);
+  frame = settingsData.substring(fourthDelimiterIndex + 1);
+}
+
+void setFrameSize() {
+  
+  if (frame.equals("FRAMESIZE_QQVGA"))  {
+    // FRAMESIZE_QQVGA: 160x120 pixels
+    frameSize = FRAMESIZE_QQVGA;
+  }
+  else if (frame.equals("FRAMESIZE_HQVGA"))  {
+    // FRAMESIZE_HQVGA: 240x176 pixels
+    frameSize = FRAMESIZE_HQVGA;
+  }
+  else if (frame.equals("FRAMESIZE_QVGA"))  {
+    // FRAMESIZE_QVGA: 320x240 pixels
+    frameSize = FRAMESIZE_QVGA;
+  }
+  else if (frame.equals("FRAMESIZE_CIF"))  {
+    // FRAMESIZE_CIF: 400x296 pixels
+    frameSize = FRAMESIZE_CIF;
+  }
+  else if (frame.equals("FRAMESIZE_VGA"))  {
+    // FRAMESIZE_VGA: 640x480 pixels
+    frameSize = FRAMESIZE_VGA;
+  }
+  else if (frame.equals("FRAMESIZE_SVGA"))  {
+    // FRAMESIZE_SVGA: 800x600 pixels
+    frameSize = FRAMESIZE_SVGA;
+  }
+  else if (frame.equals("FRAMESIZE_XGA"))  {
+    // FRAMESIZE_XGA: 1024x768 pixels
+    frameSize = FRAMESIZE_XGA;
+  }
+  else if (frame.equals("FRAMESIZE_SXGA"))  {
+    // FRAMESIZE_SXGA: 1280x1024 pixels
+    frameSize = FRAMESIZE_SXGA;
+  }
+  else if (frame.equals("FRAMESIZE_UXGA"))  {
+    // FRAMESIZE_UXGA: 1600x1200 pixels
+    frameSize = FRAMESIZE_UXGA;
+  }
+  config.frame_size = frameSize;
 }

@@ -35,7 +35,7 @@
                                 </select>
                             </div>
                             <label class="ngrok_label" for="ngrok_address">Ngrok address:</label>
-                            <input type="text" name="ngrok_address" id="ngrok_address" placeholder="ngrok port forward address">
+                            <input type="text" name="ngrok_address" id="ngrok_address" placeholder="ngrok port forward address" title="http://xxxx-xxx-xxx-xxx-xxx.eu.ngrok.io" pattern="^https://[a-zA-Z0-9]{1,4}-[a-zA-Z0-9]{1,4}-[a-zA-Z0-9]{1,4}-[a-zA-Z0-9]{1,4}-[a-zA-Z0-9]{1,4}.eu.ngrok.io$" required>
                             <div class="esp_now_footer">
                                 <!-- content would be loaded dynamically with javascript -->
                             </div>
@@ -89,8 +89,21 @@
                 <a class="logout_button" href="./logout.php">logout</a>
             </nav>
             <div class="videostream">
+                <div class="quality_container">
+                    <label for="frame_size">Quality: </label>
+                    <select name="frame" id="frame">
+                        <option value="FRAMESIZE_QQVGA">160x120</option>
+                        <option value="FRAMESIZE_HQVGA">240x176</option>
+                        <option value="FRAMESIZE_QVGA">320x240</option>
+                        <option value="FRAMESIZE_CIF">400x296</option>
+                        <option value="FRAMESIZE_VGA">640x480</option>
+                        <option selected value="FRAMESIZE_SVGA">800x600</option>
+                        <option value="FRAMESIZE_XGA">1024x768</option>
+                        <option value="FRAMESIZE_SXGA">1280x1024</option>
+                        <option value="FRAMESIZE_UXGA">1600x1200</option>
+                    </select>
+                </div>
                 <img alt="robocar video stream" id="stream" src="./IMAGE/default-image.png">
-                <!-- <img alt="robocar video stream" id="stream" src="ac8d-197-210-226-59.eu.ngrok.io/video"> -->
                 <div class="camera_control">
                     <form class="camera_form">
                         <button data-direction="cam_left" id="camera-left" type="button" class="camera-buttons">

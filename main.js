@@ -319,6 +319,21 @@ $(document).ready(function() {
 
   });
 
+  let frame;
+  // function to make get request to update frame in database
+  $('#frame').change(function() {
+    frame = $('#frame').val();
+    $.ajax({
+      type: 'GET',
+      url: 'update_frame.php',
+      data: { frame: frame },
+      success: function(data) {
+        // console.log(data);
+      }
+    });
+
+  });
+
 
   
 });
