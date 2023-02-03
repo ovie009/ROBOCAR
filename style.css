@@ -662,10 +662,11 @@ button{
 
 .quality_container{
     position: absolute;
-    bottom: 10px;
-    left: 20px;
+    top: 10px;
+    right: 20px;
     display: flex;
     align-items: center;
+    font-size: small;
 }
 
 .stream_option_container{
